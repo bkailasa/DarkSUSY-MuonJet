@@ -9,7 +9,7 @@
      [Notes on implementation]
 */
 //
-// Original Author:  Balashangar Kailasapathy UOC, Sri Lanka
+// Original Author:  Balashangar Kailasapathy.
 //         Created:  Sat, 07 Nov 2020 01:13:32 GMT
 //
 //
