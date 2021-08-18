@@ -9,7 +9,7 @@
      [Notes on implementation]
 */
 //
-// Original Author:  Balashangar Kailasapathy.
+// Original Author:  Balashangar Kailasapathy. New
 //         Created:  Sat, 07 Nov 2020 01:13:32 GMT
 //
 //
@@ -69,8 +69,11 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 // For Jets------------------------------------
     TH1F *hist_njets; 
 	TH1F *hist_jetspt;
+	TH1F *hist_jetseta;
+	TH1F *hist_jetsphi;
+	TH1F *hist_jetsmass;
 	TH1F *hist_dausPID;
-	//-------------------------
+	//----------------------------------------	
 };
 
 
@@ -86,16 +89,42 @@ patjetToken(consumes<std::vector<pat::Jet> >(iConfig.getUntrackedParameter<edm::
 	hist_njets->SetFillStyle( 3001);
     hist_njets->SetFillColor( kRed);
 	//---------------------------------------------------------------------
-	
 	hist_jetspt = fs->make<TH1F>("Jetspt", "Jets", 200, 0.0, 200.0);	
 	hist_jetspt->SetTitle("Transverse momentum of jets");
-	hist_jetspt->GetXaxis()->SetTitle("Number of Jets");
-	hist_jetspt->GetYaxis()->SetTitle("Transverse Momentum");
+	hist_jetspt->GetXaxis()->SetTitle("Transverse Momentum");
+	hist_jetspt->GetYaxis()->SetTitle("Number of Jets");
 	hist_jetspt->SetFillStyle( 3011);
     hist_jetspt->SetFillColor( kGreen);
 	//---------------------------------------------------------------------
+	hist_jetseta = fs->make<TH1F>("Jetseta", "Jetseta",20,-10,10);
+	hist_jetseta->SetTitle("Eta of jets");
+	hist_jetseta->GetXaxis()->SetTitle("eta");
+	hist_jetseta->GetYaxis()->SetTitle("Number of Jets");
+	hist_jetseta->SetFillStyle( 3021);
+    hist_jetseta->SetFillColor( kBlue);
+	//---------------------------------------------------------------------
+	hist_jetsphi = fs->make<TH1F>("Jetsphi", "Jetsphi",10,-5,5);
+	hist_jetsphi->SetTitle("Phi of jets");
+	hist_jetsphi->GetXaxis()->SetTitle("Phi");
+	hist_jetsphi->GetYaxis()->SetTitle("Number of Jets");
+	hist_jetsphi->SetFillStyle( 3012);
+    hist_jetsphi->SetFillColor( kPink);
+	//---------------------------------------------------------------------
+	hist_jetsmass = fs->make<TH1F>("Jetsmass", "Jetsmass",15,0,15);
+	hist_jetsmass->SetTitle("Mass of jets");
+	hist_jetsmass->GetXaxis()->SetTitle("Mass");
+	hist_jetsmass->GetYaxis()->SetTitle("Number of Jets");
+	hist_jetsmass->SetFillStyle( 3022);
+    hist_jetsmass->SetFillColor( kOrange);
+	//---------------------------------------------------------------------
+
 	
 	hist_dausPID = fs->make<TH1F>("DausPID", "Daus PdgID",250,0,250);
+	
+	
+	
+	
+	
 }
 
 FastJetSimple1::~FastJetSimple1()
@@ -114,8 +143,16 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	   
 	   //Transverse Momentum of Jets------------------------------------
 	   float jetspt = itJets->pt();
-	   hist_jetspt -> Fill(jetspt);
+	   float jetseta  = itJets->eta();
+	   float jetsphi  = itJets->phi();
+	   float jetsmass = itJets->mass();
 	   
+	   if(abs(jetseta)<2){
+	   hist_jetspt -> Fill(jetspt);
+	   hist_jetseta -> Fill(jetseta);
+	   hist_jetsphi -> Fill(jetsphi);
+	   hist_jetsmass -> Fill(jetsmass);
+	   }
 	   // ---------------
 	   
 	   
