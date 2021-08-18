@@ -70,6 +70,7 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
     TH1F *hist_njets; 
 	TH1F *hist_jetspt;
 	TH1F *hist_dausPID;
+	//-------------------------
 };
 
 
