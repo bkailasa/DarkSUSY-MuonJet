@@ -73,7 +73,7 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 
       // ----------member data ---------------------------
 	edm::EDGetTokenT<std::vector<pat::Jet>		> patjetToken;
-	edm::EDGetTokenT<pat::METCollection		> patMetToken;
+	edm::EDGetTokenT<std::vector<pat::MET>		> patMetToken;
 	
 	
 	
@@ -190,10 +190,10 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
              } 
 //Missing Energy
 	  
-	    edm::Handle<pat::METCollection> patmet;
+	    edm::Handle<std::vector<pat::MET>> patmet;
 	    iEvent.getByToken(patMetToken, patmet); 
 	    
-	for(pat::METCollection::const_iterator itMets = patmet->begin(); itMets != patmet->end(); ++itMets) {
+	for(pstd::vector<pat::MET>::const_iterator itMets = patmet->begin(); itMets != patmet->end(); ++itMets) {
 		    
 	   float metsumEt = itMets->sumEt();
 	   float metet  = itMets->et();
