@@ -47,6 +47,15 @@
 #include "FWCore/ServiceRegistry/interface/Service.h" // to use TFileService
 #include "CommonTools/UtilAlgos/interface/TFileService.h" // to use TFileService
 
+//Missing Energy
+//==============
+#include "DataFormats/METReco/interface/MET.h"
+#include "DataFormats/METReco/interface/METCollection.h"
+#include "DataFormats/METReco/interface/METFwd.h"
+
+#include "DataFormats/METReco/interface/PFMET.h"
+#include "DataFormats/METReco/interface/PFMETCollection.h"
+#include "DataFormats/METReco/interface/PFMETFwd.h"
 
 
 class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
@@ -63,7 +72,12 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
       virtual void endJob() override;
 
       // ----------member data ---------------------------
-	edm::EDGetTokenT<std::vector<pat::Jet>> patjetToken;
+	edm::EDGetTokenT<std::vector<pat::Jet>		> patjetToken;
+	edm::EDGetTokenT<pat::METCollection		> patMetToken;
+	
+	
+	
+	
 	edm::Service<TFileService> fs;
 
 // For Jets------------------------------------
@@ -73,6 +87,12 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 	TH1F *hist_jetsphi;
 	TH1F *hist_jetsmass;
 	TH1F *hist_dausPID;
+	
+// For Mets-----------------------------------
+	TH1F *hist_metsumEt;
+	TH1F *hist_metet;
+	TH1F *hist_meteta;
+	TH1F *hist_metphi;
 	//----------------------------------------	
 };
 
@@ -87,7 +107,7 @@ patjetToken(consumes<std::vector<pat::Jet> >(iConfig.getUntrackedParameter<edm::
 	hist_njets->GetXaxis()->SetTitle("Number of Jets");
 	hist_njets->GetYaxis()->SetTitle("Number of events");
 	hist_njets->SetFillStyle( 3001);
-    hist_njets->SetFillColor( kRed);
+    	hist_njets->SetFillColor( kRed);
 	//---------------------------------------------------------------------
 	hist_jetspt = fs->make<TH1F>("Jetspt", "Jets", 200, 0.0, 200.0);	
 	hist_jetspt->SetTitle("Transverse momentum of jets");
@@ -121,6 +141,10 @@ patjetToken(consumes<std::vector<pat::Jet> >(iConfig.getUntrackedParameter<edm::
 	
 	hist_dausPID = fs->make<TH1F>("DausPID", "Daus PdgID",250,0,250);
 	
+	hist_metsumEt= fs->make<TH1F>("metsumEt", "metsumEt",250,0,250);
+	hist_metet= fs->make<TH1F>("metet", "metet",250,0,250);
+	hist_meteta= fs->make<TH1F>("meteta", "meteta",250,0,250);
+	hist_metphi= fs->make<TH1F>("metphi", "metphi",250,0,250);
 	
 	
 	
@@ -136,12 +160,13 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	edm::Handle<std::vector<pat::Jet>> patjet;
 	iEvent.getByToken(patjetToken, patjet);
 	
+//Jets
+	
     int jets = 0;  // this counts the number of jets
     	
     for (std::vector<pat::Jet>::const_iterator itJets=patjet->begin(); itJets!=patjet->end(); ++itJets) {
        jets=jets+1; //counters for jets
 	   
-	   //Transverse Momentum of Jets------------------------------------
 	   float jetspt = itJets->pt();
 	   float jetseta  = itJets->eta();
 	   float jetsphi  = itJets->phi();
@@ -163,9 +188,30 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
            //std::cout<<"Particle IDs in the jet"<<pid<<std::endl;
 		   hist_dausPID -> Fill(pid);
              } 
-	   
+//Missing Energy
+	  
+	    edm::Handle<pat::METCollection> patmet;
+	    iEvent.getByToken(patMetToken, patmet); 
+	    
+	for(pat::METCollection::const_iterator itMets = patmet->begin(); itMets != patmet->end(); ++itMets) {
+		    
+	   float metsumEt = itMets->sumEt();
+	   float metet  = itMets->et();
+	   float meteta  = itMets->eta();
+	   float metphi = itMets->phi();
+
+	   hist_metsumEt -> Fill(sumEt);
+	   hist_metet  -> Fill(et);
+	   hist_meteta  -> Fill(eta);
+	   hist_metphi -> Fill(phi);
+	}
+
+  
     }
     hist_njets->Fill(jets); //filling histogram with the number of jets
+	
+	
+	
 }
 
 //End of Jets----------------------------------------------------------------------------------------------------------------------
