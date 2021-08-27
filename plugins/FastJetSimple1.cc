@@ -199,10 +199,10 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	   float meteta  = itMets->eta();
 	   float metphi = itMets->phi();
 
-	   hist_metsumEt -> Fill(sumEt);
-	   hist_metet  -> Fill(et);
-	   hist_meteta  -> Fill(eta);
-	   hist_metphi -> Fill(phi);
+	   hist_metsumEt -> Fill(metsumEt);
+	   hist_metet  -> Fill(metet);
+	   hist_meteta  -> Fill(meteta);
+	   hist_metphi -> Fill(metphi);
 	}
 
   
