@@ -190,7 +190,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
              } 
 //Missing Energy
 	  
-	    edm::Handle<std::vector<pat::MET>> patmet;
+	    edm::Handle<std::vector<pat::PFMET>> patmet;
 	    iEvent.getByToken(patMetToken, patmet); 
 	    
 	for(pstd::vector<pat::MET>::const_iterator itMets = patmet->begin(); itMets != patmet->end(); ++itMets) {
