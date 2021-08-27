@@ -52,10 +52,9 @@
 #include "DataFormats/METReco/interface/MET.h"
 #include "DataFormats/METReco/interface/METCollection.h"
 #include "DataFormats/METReco/interface/METFwd.h"
+#include "DataFormats/PatCandidates/interface/MET.h"
+#include "DataFormats/METReco/interface/CorrMETData.h"
 
-#include "DataFormats/METReco/interface/PFMET.h"
-#include "DataFormats/METReco/interface/PFMETCollection.h"
-#include "DataFormats/METReco/interface/PFMETFwd.h"
 
 
 class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
