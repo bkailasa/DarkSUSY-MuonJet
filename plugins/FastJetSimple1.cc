@@ -192,7 +192,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	    edm::Handle<std::vector<pat::METCollection>> patmet;
 	    iEvent.getByToken(patMetToken, patmet); 
 	    
-	for(pstd::vector<pat::METCollection>::const_iterator itMets = patmet->begin(); itMets != patmet->end(); ++itMets) {
+	for(std::vector<pat::METCollection>::const_iterator itMets = patmet->begin(); itMets != patmet->end(); ++itMets) {
 		    
 	   float metsumEt = itMets->sumEt();
 	   float metet  = itMets->et();
