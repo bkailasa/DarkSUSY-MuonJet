@@ -72,7 +72,7 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 
       // ----------member data ---------------------------
 	edm::EDGetTokenT<std::vector<pat::Jet>		> patjetToken;
-	edm::EDGetTokenT<std::vector<pat::MET>		> patMetToken;
+	edm::EDGetTokenT<std::vector<pat::METCollection>		> patMetToken;
 	
 	
 	
