@@ -140,7 +140,7 @@ patjetToken(consumes<std::vector<pat::Jet> >(iConfig.getUntrackedParameter<edm::
 	
 	hist_dausPID = fs->make<TH1F>("DausPID", "Daus PdgID",250,0,250);
 	
-	hist_metsumEt= fs->make<TH1F>("metsumet", "metsumet",250,0,250);
+	hist_metsumEt= fs->make<TH1F>("metsumEt", "metsumEt",250,0,250);
 	hist_metet= fs->make<TH1F>("metet", "metet",250,0,250);
 	hist_meteta= fs->make<TH1F>("meteta", "meteta",250,0,250);
 	hist_metphi= fs->make<TH1F>("metphi", "metphi",250,0,250);
@@ -194,12 +194,12 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	    
 	for(std::vector<pat::MET>::const_iterator itMets = patmet->begin(); itMets != patmet->end(); ++itMets) {
 		    
-	   float metsumet = itMets->sumet();
+	   float metsumEt = itMets->sumEt();
 	   float metet  = itMets->et();
 	   float meteta  = itMets->eta();
 	   float metphi = itMets->phi();
 
-	   hist_metsumet -> Fill(metsumet);
+	   hist_metsumEt -> Fill(metsumEt);
 	   hist_metet  -> Fill(metet);
 	   hist_meteta  -> Fill(meteta);
 	   hist_metphi -> Fill(metphi);
