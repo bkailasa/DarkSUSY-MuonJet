@@ -98,8 +98,8 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 
 FastJetSimple1::FastJetSimple1(const edm::ParameterSet& iConfig)
  :
-patjetToken(consumes<std::vector<pat::Jet> >(iConfig.getUntrackedParameter<edm::InputTag>("jettag"))),
-patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::InputTag>("mettag")))
+patjetToken(consumes<std::vector<pat::Jet> >(iConfig.getUntrackedParameter<edm::InputTag>("jetTag"))),
+patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::InputTag>("metTag")))
 {
     // Histogram for number of jets----------------------------------------
 	hist_njets = fs->make<TH1F>("NJets", "Number of Jets", 12, -1.5, 10.5);
