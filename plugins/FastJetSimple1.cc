@@ -77,7 +77,7 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 	edm::Service<TFileService> fs;
 
 // For Jets------------------------------------
-    TH1F *hist_njets; 
+    	TH1F *hist_njets; 
 	TH1F *hist_jetspt;
 	TH1F *hist_jetseta;
 	TH1F *hist_jetsphi;
@@ -138,7 +138,7 @@ patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::
 	
 	hist_dausPID = fs->make<TH1F>("DausPID", "Daus PdgID",250,0,250);
 	
-	hist_metsumEt= fs->make<TH1F>("metsumEt", "metsumEt",250,0,250);
+	hist_metsumEt= fs->make<TH1F>("metsumEt", "metsumEt",300,0,300);
 	hist_metet= fs->make<TH1F>("metet", "metet",250,0,250);
 	hist_meteta= fs->make<TH1F>("meteta", "meteta",250,0,250);
 	hist_metphi= fs->make<TH1F>("metphi", "metphi",250,0,250);
@@ -221,8 +221,6 @@ std::cout<<metsumEtMax<<std::endl;
 	
 	
 }
-
-//End of Jets----------------------------------------------------------------------------------------------------------------------
 
 
 // ------------ method called once each job just before starting event loop  ------------
