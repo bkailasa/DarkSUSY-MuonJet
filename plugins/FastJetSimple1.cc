@@ -74,9 +74,6 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 	edm::EDGetTokenT<std::vector<pat::Jet>		> patjetToken;
 	edm::EDGetTokenT<std::vector<pat::MET>		> patMetToken;
 	
-	
-	
-	
 	edm::Service<TFileService> fs;
 
 // For Jets------------------------------------
@@ -114,28 +111,28 @@ patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::
 	hist_jetspt->GetXaxis()->SetTitle("Transverse Momentum");
 	hist_jetspt->GetYaxis()->SetTitle("Number of Jets");
 	hist_jetspt->SetFillStyle( 3011);
-    hist_jetspt->SetFillColor( kGreen);
+    	hist_jetspt->SetFillColor( kGreen);
 	//---------------------------------------------------------------------
 	hist_jetseta = fs->make<TH1F>("Jetseta", "Jetseta",20,-10,10);
 	hist_jetseta->SetTitle("Eta of jets");
 	hist_jetseta->GetXaxis()->SetTitle("eta");
 	hist_jetseta->GetYaxis()->SetTitle("Number of Jets");
 	hist_jetseta->SetFillStyle( 3021);
-    hist_jetseta->SetFillColor( kBlue);
+    	hist_jetseta->SetFillColor( kBlue);
 	//---------------------------------------------------------------------
 	hist_jetsphi = fs->make<TH1F>("Jetsphi", "Jetsphi",10,-5,5);
 	hist_jetsphi->SetTitle("Phi of jets");
 	hist_jetsphi->GetXaxis()->SetTitle("Phi");
 	hist_jetsphi->GetYaxis()->SetTitle("Number of Jets");
 	hist_jetsphi->SetFillStyle( 3012);
-    hist_jetsphi->SetFillColor( kPink);
+    	hist_jetsphi->SetFillColor( kPink);
 	//---------------------------------------------------------------------
 	hist_jetsmass = fs->make<TH1F>("Jetsmass", "Jetsmass",15,0,15);
 	hist_jetsmass->SetTitle("Mass of jets");
 	hist_jetsmass->GetXaxis()->SetTitle("Mass");
 	hist_jetsmass->GetYaxis()->SetTitle("Number of Jets");
 	hist_jetsmass->SetFillStyle( 3022);
-    hist_jetsmass->SetFillColor( kOrange);
+    	hist_jetsmass->SetFillColor( kOrange);
 	//---------------------------------------------------------------------
 
 	
@@ -159,6 +156,9 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
 	edm::Handle<std::vector<pat::Jet>> patjet;
 	iEvent.getByToken(patjetToken, patjet);
+	
+	edm::Handle<std::vector<pat::MET>> patmet;
+	iEvent.getByToken(patMetToken, patmet); 
 	
 //Jets
 	
@@ -190,9 +190,10 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
              } 
 //Missing Energy
 	  
-	    edm::Handle<std::vector<pat::MET>> patmet;
-	    iEvent.getByToken(patMetToken, patmet); 
 	    
+	    
+	    
+	int metsumEtMax = 0
 	for(std::vector<pat::MET>::const_iterator itMets = patmet->begin(); itMets != patmet->end(); ++itMets) {
 		    
 	   float metsumEt = itMets->sumEt();
@@ -204,11 +205,16 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	   hist_metet  -> Fill(metet);
 	   hist_meteta  -> Fill(meteta);
 	   hist_metphi -> Fill(metphi);
+		
+		if(metsumEt>metsumEtMax){
+			metsumEtMax = metsumEt
+			}
 	}
 
   
     }
     hist_njets->Fill(jets); //filling histogram with the number of jets
+    std::cout<<metsumEt<<std::endl;
 	
 	
 	
