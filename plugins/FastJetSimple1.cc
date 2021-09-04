@@ -193,7 +193,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	    
 	    
 	    
-	float metsumEtMax = 0
+	float metsumEtMax = 0;
 	for(std::vector<pat::MET>::const_iterator itMets = patmet->begin(); itMets != patmet->end(); ++itMets) {
 		    
 	   float metsumEt = itMets->sumEt();
@@ -207,7 +207,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	   hist_metphi -> Fill(metphi);
 		
 		if(metsumEt>metsumEtMax){
-			metsumEtMax = metsumEt
+			metsumEtMax = metsumEt;
 			}
 	}
 	std::cout<<metsumEtMax<<std::endl;
