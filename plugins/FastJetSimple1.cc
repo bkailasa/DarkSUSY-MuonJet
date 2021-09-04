@@ -138,10 +138,10 @@ patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::
 	
 	hist_dausPID = fs->make<TH1F>("DausPID", "Daus PdgID",250,0,250);
 	
-	hist_metsumEt= fs->make<TH1F>("metsumEt", "metsumEt",300,0,300);
+	hist_metsumEt= fs->make<TH1F>("metsumEt", "metsumEt",600,0,300);
 	hist_metet= fs->make<TH1F>("metet", "metet",250,0,250);
 	hist_meteta= fs->make<TH1F>("meteta", "meteta",250,0,250);
-	hist_metphi= fs->make<TH1F>("metphi", "metphi",250,0,250);
+	hist_metphi= fs->make<TH1F>("metphi", "metphi",10,0,10);
 	
 	
 	
