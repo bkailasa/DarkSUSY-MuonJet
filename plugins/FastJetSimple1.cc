@@ -160,6 +160,8 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	edm::Handle<std::vector<pat::MET>> patmet;
 	iEvent.getByToken(patMetToken, patmet); 
 	
+	float metsumEtMax = 0;
+	
 //Jets
 	
     int jets = 0;  // this counts the number of jets
@@ -193,7 +195,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	    
 	    
 	    
-	float metsumEtMax = 0;
+	
 	for(std::vector<pat::MET>::const_iterator itMets = patmet->begin(); itMets != patmet->end(); ++itMets) {
 		    
 	   float metsumEt = itMets->sumEt();
@@ -210,12 +212,12 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			metsumEtMax = metsumEt;
 			}
 	}
-	std::cout<<metsumEtMax<<std::endl;
+	
   
     }
     hist_njets->Fill(jets); //filling histogram with the number of jets
     
-	
+std::cout<<metsumEtMax<<std::endl;
 	
 	
 }
