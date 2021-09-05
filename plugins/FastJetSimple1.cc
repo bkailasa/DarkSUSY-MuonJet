@@ -191,7 +191,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
            //std::cout<<"Particle IDs in the jet"<<pid<<std::endl;
 		   hist_dausPID -> Fill(pid);
              } 
-
+    }
 	    
 //===========================MET==========================MET=============================MET============================
 	    
@@ -221,7 +221,6 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	}
 	
   
-    }
     hist_njets->Fill(jets); //filling histogram with the number of jets
     
 std::cout<<metsumEtMax<<std::endl;
