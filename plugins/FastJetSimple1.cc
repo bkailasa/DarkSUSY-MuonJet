@@ -192,6 +192,8 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 		   hist_dausPID -> Fill(pid);
              } 
     }
+	
+	   hist_njets->Fill(jets); //filling histogram with the number of jets
 	    
 //===========================MET==========================MET=============================MET============================
 	    
@@ -202,9 +204,9 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
        << " phi " <<  met.phi() 
        << std::endl;
 	
-	
+	int n=0;
 	for(std::vector<pat::MET>::const_iterator itMets = patmet->begin(); itMets != patmet->end(); ++itMets) {
-		    
+	   n=n+1;	    
 	   float metsumEt = itMets->sumEt();
 	   float metet  = itMets->et();
 	   float meteta  = itMets->eta();
@@ -220,9 +222,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			}
 	}
 	
-  
-    hist_njets->Fill(jets); //filling histogram with the number of jets
-    
+ std::cout<<n<<std::endl; 
 std::cout<<metsumEtMax<<std::endl;
 	
 	
