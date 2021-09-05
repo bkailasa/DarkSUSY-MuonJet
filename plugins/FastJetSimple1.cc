@@ -160,6 +160,13 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	edm::Handle<std::vector<pat::MET>> patmet;
 	iEvent.getByToken(patMetToken, patmet); 
 	
+	const <std::vector<pat::MET>> &met = patmet->front();
+	std::cout << " pt " <<  met.pt() 
+       << " px " <<  met.px() 
+       << " py " <<  met.py() 
+       << " phi " <<  met.phi() 
+       << std::endl;
+	
 	float metsumEtMax = 0;
 	
 //Jets
