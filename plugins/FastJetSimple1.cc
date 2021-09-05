@@ -195,7 +195,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	    
 //===========================MET==========================MET=============================MET============================
 	    
-	const <pat::MET> &met = patmet->front();
+	const pat::MET &met = patmet->front();
 	std::cout << " pt " <<  met.pt() 
        << " px " <<  met.px() 
        << " py " <<  met.py() 
