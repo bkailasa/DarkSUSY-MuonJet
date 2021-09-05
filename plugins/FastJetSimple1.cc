@@ -160,12 +160,6 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	edm::Handle<std::vector<pat::MET>> patmet;
 	iEvent.getByToken(patMetToken, patmet); 
 	
-	const <std::vector<pat::MET>> &met = patmet->front();
-	std::cout << " pt " <<  met.pt() 
-       << " px " <<  met.px() 
-       << " py " <<  met.py() 
-       << " phi " <<  met.phi() 
-       << std::endl;
 	
 	float metsumEtMax = 0;
 	
@@ -197,11 +191,17 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
            //std::cout<<"Particle IDs in the jet"<<pid<<std::endl;
 		   hist_dausPID -> Fill(pid);
              } 
-//Missing Energy
-	  
+
 	    
+//===========================MET==========================MET=============================MET============================
 	    
-	    
+	const <pat::MET> &met = patmet->front();
+	std::cout << " pt " <<  met.pt() 
+       << " px " <<  met.px() 
+       << " py " <<  met.py() 
+       << " phi " <<  met.phi() 
+       << std::endl;
+	
 	
 	for(std::vector<pat::MET>::const_iterator itMets = patmet->begin(); itMets != patmet->end(); ++itMets) {
 		    
