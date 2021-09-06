@@ -24,7 +24,7 @@ process.source = cms.Source("PoolSource", fileNames = cms.untracked.vstring(
 #process.demo = cms.EDAnalyzer('FastJetSimple1',jetpat = cms.untracked.InputTag("slimmedJets"))
 
 process.demo1 = cms.EDAnalyzer('FastJetSimple1',
-                                muontag = cms.untracked.InputTag("slimmedMuons"),
+                                muonTag = cms.untracked.InputTag("slimmedMuons"),
                                 jetTag = cms.untracked.InputTag("slimmedJets"),
                                 metTag = cms.untracked.InputTag("slimmedMETsPuppi")
                               )
