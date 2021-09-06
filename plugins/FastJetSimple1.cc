@@ -19,9 +19,9 @@
 #include <memory>
 
 // user include files
+
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/one/EDAnalyzer.h"
-
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 
@@ -47,6 +47,11 @@
 #include "FWCore/ServiceRegistry/interface/Service.h" // to use TFileService
 #include "CommonTools/UtilAlgos/interface/TFileService.h" // to use TFileService
 
+//Muons
+#include "DataFormats/PatCandidates/interface/Muon.h"
+#include "DataFormats/PatCandidates/interface/PackedGenParticle.h"      //not sure  is it needed?
+
+
 //Missing Energy
 //==============
 #include "DataFormats/METReco/interface/MET.h"
@@ -71,10 +76,16 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
       virtual void endJob() override;
 
       // ----------member data ---------------------------
-	edm::EDGetTokenT<std::vector<pat::Jet>		> patjetToken;
-	edm::EDGetTokenT<std::vector<pat::MET>		> patMetToken;
+	edm::EDGetTokenT<std::vector<pat::Muon>			> patMuonToken;
+	edm::EDGetTokenT<std::vector<pat::Jet>			> patjetToken;
+	edm::EDGetTokenT<std::vector<pat::MET>			> patMetToken;
+	
 	
 	edm::Service<TFileService> fs;
+	
+// For muons----------------------------------
+	
+	
 
 // For Jets------------------------------------
     	TH1F *hist_njets; 
@@ -95,10 +106,16 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 
 FastJetSimple1::FastJetSimple1(const edm::ParameterSet& iConfig)
  :
+patmuonToken(consumes<std::vector<pat::Muon> >(iConfig.getUntrackedParameter<edm::InputTag>("muonTag"))),
 patjetToken(consumes<std::vector<pat::Jet> >(iConfig.getUntrackedParameter<edm::InputTag>("jetTag"))),
 patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::InputTag>("metTag")))
 {
-    // Histogram for number of jets----------------------------------------
+    
+	// For muons
+	
+	
+	
+	// Histogram for number of jets----------------------------------------
 	hist_njets = fs->make<TH1F>("NJets", "Number of Jets", 12, -1.5, 10.5);
 	hist_njets->SetTitle("Number of Jets in events");
 	hist_njets->GetXaxis()->SetTitle("Number of Jets");
@@ -154,6 +171,9 @@ FastJetSimple1::~FastJetSimple1()
 
 void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
 
+	edm::Handle<std::vector<pat::Muon>> patmuon;
+	iEvent.getByToken(patmuonToken, patmuon);
+	
 	edm::Handle<std::vector<pat::Jet>> patjet;
 	iEvent.getByToken(patjetToken, patjet);
 	
@@ -163,6 +183,14 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	
 	float metsumEtMax = 0;
 	
+//Muons
+	int m=0;
+	cout << "Number of RECO muons: " << patmuon->size() << endl;
+    for (std::vector<pat::Muon>::const_iterator itMuon=patmuon->begin(); itMuon!=patmuon->end(); ++itMuon) {
+	   m=m+1; 
+    }
+	std::cout<<m<<std::endl;
+//===========================Jet==========================Jet=============================Jet============================	
 //Jets
 	
     int jets = 0;  // this counts the number of jets
