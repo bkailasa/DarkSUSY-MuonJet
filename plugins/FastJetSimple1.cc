@@ -106,7 +106,7 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 
 FastJetSimple1::FastJetSimple1(const edm::ParameterSet& iConfig)
  :
-patmuonToken(consumes<std::vector<pat::Muon> >(iConfig.getUntrackedParameter<edm::InputTag>("muonTag"))),
+patmuonToken(consumes<std::vector<pat::MuonCollection> >(iConfig.getUntrackedParameter<edm::InputTag>("muonTag"))),
 patjetToken(consumes<std::vector<pat::Jet> >(iConfig.getUntrackedParameter<edm::InputTag>("jetTag"))),
 patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::InputTag>("metTag")))
 {
