@@ -155,7 +155,7 @@ patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::
 	//---------------------------------------------------------------------
 
 	
-	hist_dausPID = fs->make<TH1F>("DausPID", "Daus PdgID",250,0,250);
+	hist_dausPID = fs->make<TH1F>("DausPID", "Daus PdgID",500,-250,250);
 /*	
 	hist_metsumEt= fs->make<TH1F>("metsumEt", "metsumEt",600,0,300);
 	hist_metet= fs->make<TH1F>("metet", "metet",250,0,250);
@@ -217,7 +217,8 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	   std::vector daus(itJets->daughterPtrVector());
 	   for (unsigned int k =0; k < daus.size(); k++){
            const pat::PackedCandidate &cand = dynamic_cast<const pat::PackedCandidate &>(*daus[k]);
-           int pid =fabs(cand.pdgId());
+         //  int pid =fabs(cand.pdgId());
+	   int pid =(cand.pdgId());
            //std::cout<<"Particle IDs in the jet"<<pid<<std::endl;
 		   hist_dausPID -> Fill(pid);
              } 
