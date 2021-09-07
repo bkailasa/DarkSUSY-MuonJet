@@ -171,7 +171,7 @@ FastJetSimple1::~FastJetSimple1()
 
 void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
 
-	edm::Handle<std::vector<pat::Muon>> patmuon;
+	edm::Handle<std::vector<pat::MuonCollection>> patmuon;
 	iEvent.getByToken(patmuonToken, patmuon);
 	
 	edm::Handle<std::vector<pat::Jet>> patjet;
@@ -186,7 +186,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 //Muons
 	int m=0;
 	std::cout << "Number of RECO muons: " << patmuon->size() << std::endl;
-    for (std::vector<pat::Muon>::const_iterator itMuon=patmuon->begin(); itMuon!=patmuon->end(); ++itMuon) {
+    for (std::vector<pat::MuonCollection>::const_iterator itMuon=patmuon->begin(); itMuon!=patmuon->end(); ++itMuon) {
 	   m=m+1; 
     }
 	std::cout<<m<<std::endl;
