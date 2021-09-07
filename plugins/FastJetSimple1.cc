@@ -76,7 +76,7 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
       virtual void endJob() override;
 
       // ----------member data ---------------------------
-	edm::EDGetTokenT<std::vector<pat::Muon>			> patmuonToken;
+	edm::EDGetTokenT<std::vector<pat::MuonCollection>	> patmuonToken;
 	edm::EDGetTokenT<std::vector<pat::Jet>			> patjetToken;
 	edm::EDGetTokenT<std::vector<pat::MET>			> patMetToken;
 	
