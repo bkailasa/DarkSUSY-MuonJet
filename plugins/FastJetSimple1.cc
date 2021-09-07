@@ -76,7 +76,7 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
       virtual void endJob() override;
 
       // ----------member data ---------------------------
-	edm::EDGetTokenT<std::vector<pat::MuonCollection>	> patmuonToken;
+	edm::EDGetTokenT<std::vector<pat::Muon>			> patmuonToken;
 	edm::EDGetTokenT<std::vector<pat::Jet>			> patjetToken;
 	edm::EDGetTokenT<std::vector<pat::MET>			> patMetToken;
 	
@@ -106,9 +106,9 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 
 FastJetSimple1::FastJetSimple1(const edm::ParameterSet& iConfig)
  :
-patmuonToken(consumes<std::vector<pat::MuonCollection> >(iConfig.getUntrackedParameter<edm::InputTag>("muonTag"))),
-patjetToken(consumes<std::vector<pat::Jet> >(iConfig.getUntrackedParameter<edm::InputTag>("jetTag"))),
-patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::InputTag>("metTag")))
+patmuonToken(consumes<std::vector<pat::Muon> >(iConfig.getUntrackedParameter<edm::InputTag>		("muonTag"))),
+patjetToken(consumes<std::vector<pat::Jet> >(iConfig.getUntrackedParameter<edm::InputTag>		("jetTag"))),
+patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::InputTag>		("metTag")))
 {
     
 	// For muons
@@ -171,7 +171,7 @@ FastJetSimple1::~FastJetSimple1()
 
 void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup){
 
-	edm::Handle<std::vector<pat::MuonCollection>> patmuon;
+	edm::Handle<std::vector<pat::Muon>> patmuon;
 	iEvent.getByToken(patmuonToken, patmuon);
 	
 	edm::Handle<std::vector<pat::Jet>> patjet;
@@ -186,7 +186,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 //Muons
 	int m=0;
 	std::cout << "Number of RECO muons: " << patmuon->size() << std::endl;
-    for (std::vector<pat::MuonCollection>::const_iterator itMuon=patmuon->begin(); itMuon!=patmuon->end(); ++itMuon) {
+    for (std::vector<pat::Muon>::const_iterator itMuon=patmuon->begin(); itMuon!=patmuon->end(); ++itMuon) {
 	   m=m+1; 
     }
 	std::cout<<m<<std::endl;
