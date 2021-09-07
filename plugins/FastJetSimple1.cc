@@ -76,7 +76,7 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
       virtual void endJob() override;
 
       // ----------member data ---------------------------
-	edm::EDGetTokenT<std::vector<pat::Muon>			> patMuonToken;
+	edm::EDGetTokenT<std::vector<pat::Muon>			> patmuonToken;
 	edm::EDGetTokenT<std::vector<pat::Jet>			> patjetToken;
 	edm::EDGetTokenT<std::vector<pat::MET>			> patMetToken;
 	
@@ -185,7 +185,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	
 //Muons
 	int m=0;
-	cout << "Number of RECO muons: " << patmuon->size() << endl;
+	std::cout << "Number of RECO muons: " << patmuon->size() << std::endl;
     for (std::vector<pat::Muon>::const_iterator itMuon=patmuon->begin(); itMuon!=patmuon->end(); ++itMuon) {
 	   m=m+1; 
     }
