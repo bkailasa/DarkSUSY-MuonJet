@@ -228,6 +228,8 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 //===========================MET==========================MET=============================MET============================
 	    
 	const pat::MET &met = patmet->front();
+	float metpt = met.pt();
+	
 	std::cout << " pt " <<  met.pt() 
        << " px " <<  met.px() 
        << " py " <<  met.py() 
@@ -253,9 +255,9 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	}
 */
 
-hist_metpt -> Fill(met.pt);	
+hist_metpt -> Fill(metpt);	
 	
- std::cout<<n<<std::endl; 
+ //std::cout<<n<<std::endl; 
 std::cout<<metsumEtMax<<std::endl;
 	
 	
