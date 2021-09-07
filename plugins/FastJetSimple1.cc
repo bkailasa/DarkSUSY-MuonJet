@@ -96,11 +96,13 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 	TH1F *hist_dausPID;
 	
 // For Mets-----------------------------------
-	TH1F *hist_metsumEt;
+/*	TH1F *hist_metsumEt;
 	TH1F *hist_metet;
 	TH1F *hist_meteta;
 	TH1F *hist_metphi;
-	//----------------------------------------	
+	//----------------------------------------
+*/	
+	TH1F *hist_metpt;
 };
 
 
@@ -154,13 +156,13 @@ patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::
 
 	
 	hist_dausPID = fs->make<TH1F>("DausPID", "Daus PdgID",250,0,250);
-	
+/*	
 	hist_metsumEt= fs->make<TH1F>("metsumEt", "metsumEt",600,0,300);
 	hist_metet= fs->make<TH1F>("metet", "metet",250,0,250);
 	hist_meteta= fs->make<TH1F>("meteta", "meteta",250,0,250);
 	hist_metphi= fs->make<TH1F>("metphi", "metphi",20,0,5);
-	
-	
+*/	
+	hist_metpt=fs->make<TH1F>("metpt", "metpt",200,0,200);
 	
 	
 }
@@ -231,7 +233,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
        << " py " <<  met.py() 
        << " phi " <<  met.phi() 
        << std::endl;
-	
+/*	
 	int n=0;
 	for(std::vector<pat::MET>::const_iterator itMets = patmet->begin(); itMets != patmet->end(); ++itMets) {
 	   n=n+1;	    
@@ -249,6 +251,9 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			metsumEtMax = metsumEt;
 			}
 	}
+*/
+
+hist_metpt -> Fill(met.pt);	
 	
  std::cout<<n<<std::endl; 
 std::cout<<metsumEtMax<<std::endl;
