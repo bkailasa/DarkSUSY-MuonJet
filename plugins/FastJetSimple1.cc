@@ -94,6 +94,7 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 	edm::EDGetTokenT<std::vector<pat::Muon>			> patmuonToken;
 	edm::EDGetTokenT<std::vector<pat::Jet>			> patjetToken;
 	edm::EDGetTokenT<std::vector<pat::MET>			> patMetToken;
+	edm::EDGetTokenT<std::vector<pat::IsolatedTrack>	> patIsolatedTrackToken;
 	
 	
 	edm::Service<TFileService> fs;
@@ -134,6 +135,7 @@ FastJetSimple1::FastJetSimple1(const edm::ParameterSet& iConfig)
 patmuonToken(consumes<std::vector<pat::Muon> >(iConfig.getUntrackedParameter<edm::InputTag>		("muonTag"))),
 patjetToken(consumes<std::vector<pat::Jet> >(iConfig.getUntrackedParameter<edm::InputTag>		("jetTag"))),
 patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::InputTag>		("metTag")))
+patIsolatedTrackToken(consumes<std::vector<pat::IsolatedTrack> >(iConfig.getUntrackedParameter<edm::InputTag>	("trackTag")))	
 {
     
 	// For muons
@@ -200,31 +202,85 @@ FastJetSimple1::~FastJetSimple1()
 void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
 
-	edm::Handle<std::vector<pat::Muon>> patmuon;
+	edm::Handle<std::vector<pat::Muon>> patMuon;
 	iEvent.getByToken(patmuonToken, patmuon);
 	
-	edm::Handle<std::vector<pat::Jet>> patjet;
+	edm::Handle<std::vector<pat::Jet>> patJet;
 	iEvent.getByToken(patjetToken, patjet);
 	
-	edm::Handle<std::vector<pat::MET>> patmet;
+	edm::Handle<std::vector<pat::MET>> patMet;
 	iEvent.getByToken(patMetToken, patmet); 
+	
+	edm::Handle<std::vector<pat::IsolatedTrack>> patIsolatedTrack;
+	iEvent.getByToken(patIsolatedTrackToken, patIsolatedTrack); 
+	
+	std::vector<fastjet::PseudoJet> input_particles;
+	
 	
 	
 //===========================Muons==========================Muons=============================Muons====================
 	int m=0;
-	std::cout << "Number of RECO muons: " << patmuon->size() << std::endl;
-    for (std::vector<pat::Muon>::const_iterator itMuon=patmuon->begin(); itMuon!=patmuon->end(); ++itMuon) {
-	   m=m+1; 
-    }
+	std::cout << "Number of RECO muons: " << patMuon->size() << std::endl;
+	
+	for (std::vector<pat::Muon>::const_iterator itMuon=patMuon->begin(); itMuon!=patMuon->end(); ++itMuon) 
+	{
+		m=m+1; 
+	}
+	
 	std::cout<<m<<std::endl;
+
+//===========================Isolated Tracks==========================Isolated Tracks=============================Isolated Tracks====================	
 	
+	for(std::vector<pat::IsolatedTrack>::const_iterator itTrack = isolatedTracks->begin(); itTrack != isolatedTracks->end(); ++itTrack)
+		{
+			int charge = itTrack->pt();
+			std::cout<<charge<<std::endl;
+		
+			input_particles.push_back(fastjet::PseudoJet(itTrack->px(),itTrack->py(),itTrack->pz(),itTrack->energy()));
+   		}
 	
+		fastjet::Selector particle_selector = fastjet::SelectorAbsRapRange(1.0,2.5) || (fastjet::SelectorAbsRapMax(1.0) && fastjet::SelectorPtMin(1.0));
+		std::cout << input_particles.size() << " particles before selector" << std::endl;
+		input_particles = particle_selector(input_particles);
+		std::cout << input_particles.size() << " particles after selector" << std::endl;
+		double R = 0.6;
+
+		fastjet::JetDefinition jet_def(fastjet::kt_algorithm,R);
+
+
+		std::cout<<"Jet definition used here: "<<jet_def.description()<<std::endl;
+		fastjet::ClusterSequence clust_seq(input_particles, jet_def);
+
+
+		int dpg_id = 21;
+		int vertex_no = 1;
+		
+		
+		
+
+		std::vector<fastjet::PseudoJet> inclusive_jets = clust_seq.inclusive_jets();
+        std::cout<< "Number  of jets = "<<inclusive_jets.size()<<std::endl;
+
+		// label the columns
+		printf("%5s %15s %15s %15s\n","jet #", "rapidity", "phi", "pt");
+		for (unsigned int i = 0; i < inclusive_jets.size(); i++)
+		{
+		Myheaderfile1* infojet = new Myheaderfile1(dpg_id,vertex_no);	
+		inclusive_jets[i].set_user_info(infojet);
+		const int & pdgid = inclusive_jets[i].user_info<Myheaderfile1>().pdg_id();
+		
+		std::cout<<"This is the pgdID"<<pdgid<<std::endl;
+			
+		printf("%5u %15.8f %15.8f %15.8f\n",i, inclusive_jets[i].rap(), inclusive_jets[i].phi(), inclusive_jets[i].perp());
+		}
+
+
 	
 //===========================Jet==========================Jet=============================Jet============================	
 
 	int jets = 0;  // this counts the number of jets
     	
-	for (std::vector<pat::Jet>::const_iterator itJets=patjet->begin(); itJets!=patjet->end(); ++itJets) 
+	for (std::vector<pat::Jet>::const_iterator itJets=patJet->begin(); itJets!=patJet->end(); ++itJets) 
 	{
 		jets=jets+1; //counters for jets
 	   
@@ -259,7 +315,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	
 	//===========================MET==========================MET=============================MET============================
  
-	const pat::MET &met = patmet->front();
+	const pat::MET &met = patMet->front();
 	float metpt = met.pt();
 	std::cout << " pt " <<  met.pt() << " px " <<  met.px() << " py " <<  met.py()  << " phi " <<  met.phi() << std::endl;
 	
@@ -269,7 +325,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 /*  	
 	float metsumEtMax = 0;   
 	int n=0;
-	for(std::vector<pat::MET>::const_iterator itMets = patmet->begin(); itMets != patmet->end(); ++itMets) 
+	for(std::vector<pat::MET>::const_iterator itMets = patMet->begin(); itMets != patMet->end(); ++itMets) 
 	{
 		n=n+1;	    
 		float metsumEt = itMets->sumEt();
