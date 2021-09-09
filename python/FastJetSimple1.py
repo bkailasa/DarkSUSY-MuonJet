@@ -19,13 +19,17 @@ process.options = cms.untracked.PSet( wantSummary = cms.untracked.bool(False),Sk
 process.source = cms.Source("PoolSource", fileNames = cms.untracked.vstring(
 
 'file:/lustrehome/mmaggi/DarkMuonJet/MNeu60_MHd30_Mad00.25_Mnd0.1/001/DarkSusy-RunIIAutumn18DR_step3-MiniAOD.root'
-#'file:/lustrehome/mmaggi/DarkMuonJet/MNeu60_MHd30_Mad00.25_Mnd0.1/002/DarkSusy-RunIIAutumn18DR_step3-MiniAOD.root',
-#'file:/lustrehome/mmaggi/DarkMuonJet/MNeu60_MHd30_Mad00.25_Mnd0.1/003/DarkSusy-RunIIAutumn18DR_step3-MiniAOD.root' 
 ))
 
 #process.demo = cms.EDAnalyzer('FastJetSimple1',jetpat = cms.untracked.InputTag("slimmedJets"))
 
-process.demo1 = cms.EDAnalyzer('FastJetSimple1',muonpat = cms.untracked.InputTag("slimmedMuons"),jetpat = cms.untracked.InputTag("slimmedJets"))
+process.demo1 = cms.EDAnalyzer('FastJetSimple1',
+                                muonTag = cms.untracked.InputTag("slimmedMuons"),
+                                jetTag = cms.untracked.InputTag("slimmedJets"),
+                                metTag = cms.untracked.InputTag("slimmedMETsPuppi"),,
+                                trackTag = cms.untracked.InputTag("isolatedTracks")
+                               
+                              )
 
 process.TFileService = cms.Service("TFileService",fileName = cms.string('histos001.root'))
 
