@@ -134,7 +134,7 @@ FastJetSimple1::FastJetSimple1(const edm::ParameterSet& iConfig)
  :
 patmuonToken(consumes<std::vector<pat::Muon> >(iConfig.getUntrackedParameter<edm::InputTag>		("muonTag"))),
 patjetToken(consumes<std::vector<pat::Jet> >(iConfig.getUntrackedParameter<edm::InputTag>		("jetTag"))),
-patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::InputTag>		("metTag")))
+patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::InputTag>		("metTag"))),
 patIsolatedTrackToken(consumes<std::vector<pat::IsolatedTrack> >(iConfig.getUntrackedParameter<edm::InputTag>	("trackTag")))	
 {
     
@@ -203,13 +203,13 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 {
 
 	edm::Handle<std::vector<pat::Muon>> patMuon;
-	iEvent.getByToken(patmuonToken, patmuon);
+	iEvent.getByToken(patmuonToken, patMuon);
 	
 	edm::Handle<std::vector<pat::Jet>> patJet;
-	iEvent.getByToken(patjetToken, patjet);
+	iEvent.getByToken(patjetToken, patJet);
 	
 	edm::Handle<std::vector<pat::MET>> patMet;
-	iEvent.getByToken(patMetToken, patmet); 
+	iEvent.getByToken(patMetToken, patMet); 
 	
 	edm::Handle<std::vector<pat::IsolatedTrack>> patIsolatedTrack;
 	iEvent.getByToken(patIsolatedTrackToken, patIsolatedTrack); 
@@ -231,7 +231,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
 //===========================Isolated Tracks==========================Isolated Tracks=============================Isolated Tracks====================	
 	
-	for(std::vector<pat::IsolatedTrack>::const_iterator itTrack = isolatedTracks->begin(); itTrack != isolatedTracks->end(); ++itTrack)
+	for(std::vector<pat::IsolatedTrack>::const_iterator itTrack = patIsolatedTrack->begin(); itTrack != patIsolatedTrack->end(); ++itTrack)
 		{
 			int charge = itTrack->pt();
 			std::cout<<charge<<std::endl;
