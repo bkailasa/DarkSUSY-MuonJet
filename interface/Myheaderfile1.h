@@ -1,7 +1,6 @@
 #include "fastjet/PseudoJet.hh"
 
-int _pdg_id;         // the associated pdg id
-int _vertex_number;  // the associated vertex number
+
 
 class Myheaderfile1 : public fastjet::PseudoJet::UserInfoBase{
  public:
@@ -16,6 +15,7 @@ class Myheaderfile1 : public fastjet::PseudoJet::UserInfoBase{
    /// access to the vertex number
    int vertex_number() const { return _vertex_number;}
    
-// protected:
-
+ protected:
+ int _pdg_id;         // the associated pdg id
+ int _vertex_number;  // the associated vertex number
  };
