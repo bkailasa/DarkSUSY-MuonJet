@@ -70,10 +70,10 @@
 #include "fastjet/SISConePlugin.hh"
 
 #include "DataFormats/PatCandidates/interface/IsolatedTrack.h"
-#include "interface/Myheaderfile1.h"       // My header file
+#include "FastjetEx/FastJetSimple1/interface/Myheaderfile1.h"       // My header file
 #include "fastjet/PseudoJet.hh"
 #include "fastjet/ClusterSequenceArea.hh"
-#include fastjet/Selector.hh"
+#include "fastjet/Selector.hh"
 
 
 
