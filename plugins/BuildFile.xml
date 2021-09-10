@@ -13,6 +13,7 @@
 <use name="PhysicsTools/FWLite"/>
 <use name="DataFormats/Math"/>
 <use name="CommonTools/UtilAlgos"/>
+<use name="fastjet"/>
 <flags EDM_PLUGIN="1"/>
 <export>
    <lib name="1"/>
