@@ -65,15 +65,15 @@
 //Header file for Fastjet Analysis
 //====================================
 
-#include "include/fastjet/ClusterSequence.hh"
-#include "include/fastjet/config.h"
-#include "include/fastjet/SISConePlugin.hh"
+#include "fastjet/ClusterSequence.hh"
+#include "fastjet/config.h"
+#include "fastjet/SISConePlugin.hh"
 
 #include "DataFormats/PatCandidates/interface/IsolatedTrack.h"
-#include "include/FastjetEx/FastjetEx1/interface/Myheaderfile1.h"       // My header file
-#include "include/fastjet/PseudoJet.hh"
-#include "include/fastjet/ClusterSequenceArea.hh"
-#include "include/fastjet/Selector.hh"
+#include "interface/Myheaderfile1.h"       // My header file
+#include "fastjet/PseudoJet.hh"
+#include "fastjet/ClusterSequenceArea.hh"
+#include fastjet/Selector.hh"
 
 
 
@@ -240,6 +240,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
    		}
 	
 		fastjet::Selector particle_selector = fastjet::SelectorAbsRapRange(1.0,2.5) || (fastjet::SelectorAbsRapMax(1.0) && fastjet::SelectorPtMin(1.0));
+		
 		std::cout << input_particles.size() << " particles before selector" << std::endl;
 		input_particles = particle_selector(input_particles);
 		std::cout << input_particles.size() << " particles after selector" << std::endl;
