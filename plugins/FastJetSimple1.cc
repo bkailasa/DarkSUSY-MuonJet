@@ -65,9 +65,9 @@
 //Header file for Fastjet Analysis
 //====================================
 
-#include "include/fastjet/ClusterSequence.hh"
-#include "include/fastjet/config.h"
-#include "include/fastjet/SISConePlugin.hh"
+#include "JetAna/fastjet/ClusterSequence.hh"
+#include "JetAna/fastjet/config.h"
+#include "JetAna/fastjet/SISConePlugin.hh"
 
 #include "DataFormats/PatCandidates/interface/IsolatedTrack.h"
 #include "include/FastjetEx/FastjetEx1/interface/Myheaderfile1.h"       // My header file
