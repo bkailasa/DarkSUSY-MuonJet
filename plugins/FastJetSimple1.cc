@@ -71,9 +71,9 @@
 
 #include "DataFormats/PatCandidates/interface/IsolatedTrack.h"
 #include "include/FastjetEx/FastjetEx1/interface/Myheaderfile1.h"       // My header file
-#include "include/fastjet/PseudoJet.hh"
-#include "include/fastjet/ClusterSequenceArea.hh"
-#include "include/fastjet/Selector.hh"
+#include "JetAna/fastjet/PseudoJet.hh"
+#include "JetAna/fastjet/ClusterSequenceArea.hh"
+#include "JetAna/fastjet/Selector.hh"
 
 
 
