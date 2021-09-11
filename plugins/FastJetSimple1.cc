@@ -228,8 +228,12 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	}
 	
 	std::cout<<m<<std::endl;
+	
+	
+	
+	
 
-//===========================Isolated Tracks==========================Isolated Tracks=============================Isolated Tracks====================	
+//===========================Fastjet==============================Fastjet==============================Fastjet======================	
 	
 	for(std::vector<pat::IsolatedTrack>::const_iterator itTrack = patIsolatedTrack->begin(); itTrack != patIsolatedTrack->end(); ++itTrack)
 		{
@@ -239,40 +243,53 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			input_particles.push_back(fastjet::PseudoJet(itTrack->px(),itTrack->py(),itTrack->pz(),itTrack->energy()));
    		}
 	
+		std::cout <<  " Number of particles before applying cuts (ie, before using selector) : " <<input_particles.size() << std::endl;
+	
+	
+		//defining basic set of jet cuts using fastjet::Selector
+	
 		fastjet::Selector particle_selector = fastjet::SelectorAbsRapRange(1.0,2.5) || (fastjet::SelectorAbsRapMax(1.0) && fastjet::SelectorPtMin(1.0));
-		
-		std::cout << input_particles.size() << " particles before selector" << std::endl;
 		input_particles = particle_selector(input_particles);
-		std::cout << input_particles.size() << " particles after selector" << std::endl;
+	
+	
+		std::cout <<  " Number of particles after applying cuts : " <<input_particles.size() << std::endl;
+		
+	
+		
+	
+		// Jet definition: specifying how to carry out the clustering
+	
 		double R = 0.6;
-
 		fastjet::JetDefinition jet_def(fastjet::kt_algorithm,R);
-
-
 		std::cout<<"Jet definition used here: "<<jet_def.description()<<std::endl;
+	
+	
+		//Jet clustering for particles with above jet definition
 		fastjet::ClusterSequence clust_seq(input_particles, jet_def);
 
 
-		int dpg_id = 21;
+		//  - pdg_id        the PDG id of the particle
+   		//  - vertex_number the id of the vertex it originates from
+		
+		
+		//Retriving required information from the clustered jet
+		std::vector<fastjet::PseudoJet> inclusive_jets = clust_seq.inclusive_jets();
+		std::cout<< "Number  of jets = "<<inclusive_jets.size()<<std::endl;
+		
+		int pdg_id = 13;
 		int vertex_no = 1;
 		
+		printf("%5s %15s %15s %15s\n","jet #", "rapidity", "phi", "pt");   // label the columns
 		
-		
-
-		std::vector<fastjet::PseudoJet> inclusive_jets = clust_seq.inclusive_jets();
-        std::cout<< "Number  of jets = "<<inclusive_jets.size()<<std::endl;
-
-		// label the columns
-		printf("%5s %15s %15s %15s\n","jet #", "rapidity", "phi", "pt");
 		for (unsigned int i = 0; i < inclusive_jets.size(); i++)
 		{
-		Myheaderfile1* infojet = new Myheaderfile1(dpg_id,vertex_no);	
-		inclusive_jets[i].set_user_info(infojet);
-		const int & pdgid = inclusive_jets[i].user_info<Myheaderfile1>().pdg_id();
+			Myheaderfile1* infojet = new Myheaderfile1(pdg_id,vertex_no);	
+			inclusive_jets[i].set_user_info(infojet);
+			const int & pdgid = inclusive_jets[i].user_info<Myheaderfile1>().pdg_id();
 		
-		std::cout<<"This is the pgdID"<<pdgid<<std::endl;
+			std::cout<<"This is the pgdID"<<pdgid<<std::endl;
 			
-		printf("%5u %15.8f %15.8f %15.8f\n",i, inclusive_jets[i].rap(), inclusive_jets[i].phi(), inclusive_jets[i].perp());
+			printf("%5u %15.8f %15.8f %15.8f\n",i, inclusive_jets[i].rap(), inclusive_jets[i].phi(), inclusive_jets[i].perp());
 		}
 
 
