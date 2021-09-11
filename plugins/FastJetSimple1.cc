@@ -114,7 +114,15 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 	TH1F *hist_jetsmass;
 	TH1F *hist_dausPID;
 	
+	
+	
+	
+	
+	TH1F *hist_n_inc_jets;
 // For Mets-----------------------------------
+	
+	
+	
 	
 /*	TH1F *hist_metsumEt;
 	TH1F *hist_metet;
@@ -183,6 +191,14 @@ patIsolatedTrackToken(consumes<std::vector<pat::IsolatedTrack> >(iConfig.getUntr
 
 	
 	hist_dausPID = fs->make<TH1F>("DausPID", "Daus PdgID",500,-250,250);
+	
+	
+	hist_n_inc_jets = fs->make<TH1F>("NInc_Jets", "Number of Inclusive Jets", 10, 0, 10);
+	hist_n_inc_jets->SetTitle("Number of Inclusive Jets in events");
+	hist_n_inc_jets->GetXaxis()->SetTitle("Number of Inclusive Jets");
+	hist_n_inc_jets->GetYaxis()->SetTitle("Number of events");
+	hist_n_inc_jets->SetFillStyle( 3001);
+    	hist_n_inc_jets->SetFillColor( kRed);
 	
 	
 	
@@ -279,7 +295,9 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 		//Retriving required information from the clustered jet
 		std::vector<fastjet::PseudoJet> inclusive_jets = clust_seq.inclusive_jets();
 		std::cout<< "Number  of jets = "<<inclusive_jets.size()<<std::endl;
-		
+		int incJetSize = inclusive_jets.size();
+		hist_n_inc_jets->Fill(incJetSize);	
+	
 		int pdg_id = 13;
 		int vertex_no = 1;
 		
