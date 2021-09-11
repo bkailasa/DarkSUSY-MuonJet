@@ -115,10 +115,12 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 	TH1F *hist_dausPID;
 	
 // For Mets-----------------------------------
+	
 /*	TH1F *hist_metsumEt;
 	TH1F *hist_metet;
 	TH1F *hist_meteta;
-	TH1F *hist_metphi;    */
+	TH1F *hist_metphi;    
+*/
 	
 	TH1F *hist_metpt;
 	//----------------------------------------
@@ -189,7 +191,8 @@ patIsolatedTrackToken(consumes<std::vector<pat::IsolatedTrack> >(iConfig.getUntr
 	hist_metsumEt= fs->make<TH1F>("metsumEt", "metsumEt",600,0,300);
 	hist_metet= fs->make<TH1F>("metet", "metet",250,0,250);
 	hist_meteta= fs->make<TH1F>("meteta", "meteta",250,0,250);
-	hist_metphi= fs->make<TH1F>("metphi", "metphi",20,0,5);                     */	
+	hist_metphi= fs->make<TH1F>("metphi", "metphi",20,0,5);                    
+*/	
 	hist_metpt=fs->make<TH1F>("metpt", "metpt",200,0,200);
 	
 	
@@ -219,6 +222,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	
 	
 //===========================Muons==========================Muons=============================Muons====================
+/*
 	int m=0;
 	std::cout << "Number of RECO muons: " << patMuon->size() << std::endl;
 	
@@ -229,7 +233,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	
 	std::cout<<m<<std::endl;
 	
-	
+*/
 	
 	
 
@@ -237,8 +241,8 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	
 	for(std::vector<pat::IsolatedTrack>::const_iterator itTrack = patIsolatedTrack->begin(); itTrack != patIsolatedTrack->end(); ++itTrack)
 		{
-			int charge = itTrack->pt();
-			std::cout<<charge<<std::endl;
+			//int charge = itTrack->pt();
+			//std::cout<<charge<<std::endl;
 		
 			input_particles.push_back(fastjet::PseudoJet(itTrack->px(),itTrack->py(),itTrack->pz(),itTrack->energy()));
    		}
