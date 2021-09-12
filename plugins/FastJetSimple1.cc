@@ -279,7 +279,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	
 		// Jet definition: specifying how to carry out the clustering
 	
-		double R = 0.6;
+		double R = 0.7;
 		fastjet::JetDefinition jet_def(fastjet::kt_algorithm,R);
 		std::cout<<"Jet definition used here: "<<jet_def.description()<<std::endl;
 	
