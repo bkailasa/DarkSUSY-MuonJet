@@ -119,6 +119,7 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 	
 	
 	TH1F *hist_n_inc_jets;
+	TH1F *hist_n_exc_jets;
 // For Mets-----------------------------------
 	
 	
@@ -199,6 +200,10 @@ patIsolatedTrackToken(consumes<std::vector<pat::IsolatedTrack> >(iConfig.getUntr
 	hist_n_inc_jets->GetYaxis()->SetTitle("Number of events");
 	hist_n_inc_jets->SetFillStyle( 3001);
     	hist_n_inc_jets->SetFillColor( kRed);
+		
+		
+		
+	hist_n_exc_jets = fs->make<TH1F>("NExc_Jets", "Number of Exclusive Jets", 10, 0, 10);
 	
 	
 	
@@ -269,14 +274,14 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 		//defining basic set of jet cuts using fastjet::Selector
 	
 		fastjet::Selector particle_selector = fastjet::SelectorAbsRapRange(1.0,2.5) || (fastjet::SelectorAbsRapMax(1.0) && fastjet::SelectorPtMin(1.0));
-		input_particles = particle_selector(input_particles);
-	
+		
+			
+		
+		input_particles = particle_selector(input_particles);   // Particles with cut and these are the particles to be used for jet clustering
 	
 		std::cout <<  " Number of particles after applying cuts : " <<input_particles.size() << std::endl;
 		
-	
-		
-	
+			
 		// Jet definition: specifying how to carry out the clustering
 	
 		double R = 0.7;
@@ -287,19 +292,19 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 		//Jet clustering for particles with above jet definition
 		fastjet::ClusterSequence clust_seq(input_particles, jet_def);
 
-
-		//  - pdg_id        the PDG id of the particle
-   		//  - vertex_number the id of the vertex it originates from
-		
+	
 		
 		//Retriving required information from the clustered jet
+		
+		
+		//Inclusive Jets 
 		std::vector<fastjet::PseudoJet> inclusive_jets = clust_seq.inclusive_jets();
 		std::cout<< "Number  of jets = "<<inclusive_jets.size()<<std::endl;
 		int incJetSize = inclusive_jets.size();
 		hist_n_inc_jets->Fill(incJetSize);	
 	
-		int pdg_id = 13;
-		int vertex_no = 1;
+		int pdg_id = 13;   	//  - pdg_id        the PDG id of the particle
+   		int vertex_no = 1;	//  - vertex_number the id of the vertex it originates from
 		
 		printf("%5s %15s %15s %15s\n","jet #", "rapidity", "phi", "pt");   // label the columns
 		
@@ -314,7 +319,11 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			printf("%5u %15.8f %15.8f %15.8f\n",i, inclusive_jets[i].rap(), inclusive_jets[i].phi(), inclusive_jets[i].perp());
 		}
 
-
+		//Exclusive Jets
+		std::vector<fastjet::PseudoJet> exclusive_jets = clust_seq.exclusive_jets(1);
+		std::cout<< "Number  of Exclusive jets = "<<exclusive_jets.size()<<std::endl;
+		int ExcJetSize = exclusive_jets.size();
+		hist_n_exc_jets->Fill(ExcJetSize);	
 	
 //===========================Jet==========================Jet=============================Jet============================	
 
