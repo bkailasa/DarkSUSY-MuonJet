@@ -320,7 +320,8 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 		}
 
 		//Exclusive Jets
-		std::vector<fastjet::PseudoJet> exclusive_jets = clust_seq.exclusive_jets(1);
+		std::vector<fastjet::PseudoJet> exclusive_jets = clust_seq.exclusive_jets(2);
+		std::cout<<"\n";
 		std::cout<< "Number  of Exclusive jets = "<<exclusive_jets.size()<<std::endl;
 		int ExcJetSize = exclusive_jets.size();
 		hist_n_exc_jets->Fill(ExcJetSize);	
@@ -397,7 +398,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	//std::cout<<metsumEtMax<<std::endl;
 	
 }
-
+std::cout<<"================================"<<std::endl; 
 
 // ------------ method called once each job just before starting event loop  ------------
 void
