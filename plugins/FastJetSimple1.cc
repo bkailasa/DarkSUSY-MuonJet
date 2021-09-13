@@ -116,6 +116,11 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 	
 	
 	
+	TH1F *hist_jetrap;
+	TH1F *hist_jetphi;
+	TH1F *hist_jetpt;
+	TH1F *hist_invmass;
+	
 	
 	
 	TH1F *hist_n_inc_jets;
@@ -192,6 +197,13 @@ patIsolatedTrackToken(consumes<std::vector<pat::IsolatedTrack> >(iConfig.getUntr
 
 	
 	hist_dausPID = fs->make<TH1F>("DausPID", "Daus PdgID",500,-250,250);
+	
+	
+	
+	hist_jetrap -> = fs->make<TH1F>("jetrap", "Jet Rapidity", 10, 0, 10);
+	hist_jetphi -> = fs->make<TH1F>("jetphi", "Jet phi", 10, 0, 10);
+	hist_jetpt -> F= fs->make<TH1F>("jetpt", "Jet pt", 10, 0, 10);
+	hist_invmass -> = fs->make<TH1F>("invmass", "Jet Invarient mass", 10, 0, 10);
 	
 	
 	hist_n_inc_jets = fs->make<TH1F>("NInc_Jets", "Number of Inclusive Jets", 10, 0, 10);
@@ -310,7 +322,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 		int pdg_id = 13;   	//  - pdg_id        the PDG id of the particle
    		int vertex_no = 1;	//  - vertex_number the id of the vertex it originates from
 		
-		printf("%5s %15s %15s %15s\n","jet #", "rapidity", "phi", "pt");   // label the columns
+		printf("%5s %15s %15s %15s\n","jet #", "rapidity", "phi", "pt" , "invMass");   // label the columns
 		
 		for (unsigned int i = 0; i < inclusive_jets.size(); i++)
 		{
@@ -320,7 +332,20 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 		
 			std::cout<<"This is the pgdID"<<pdgid<<std::endl;
 			
-			printf("%5u %15.8f %15.8f %15.8f\n",i, inclusive_jets[i].rap(), inclusive_jets[i].phi(), inclusive_jets[i].mt2());
+			printf("%5u %15.8f %15.8f %15.8f %15.8f\n",i, inclusive_jets[i].rap(), inclusive_jets[i].phi(), inclusive_jets[i].pt(), inclusive_jets[i].m());
+			
+			
+			float jetrap  = inclusive_jets[i].rap();
+			float jetphi = inclusive_jets[i].phi();
+			float jetpt = inclusive_jets[i].pt();
+			float invmass = inclusive_jets[i].m();
+			
+			hist_jetrap -> Fill(jetrap);
+			hist_jetphi -> Fill(jetphi);
+			hist_jetpt -> Fill(jetpt):
+			hist_invmass -> Fill(invmass);
+			
+			
 		}
 
 		//Exclusive Jets
