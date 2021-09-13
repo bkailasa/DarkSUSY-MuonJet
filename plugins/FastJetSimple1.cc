@@ -107,7 +107,7 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 	
 
 // For Jets------------------------------------
-    	TH1F *hist_njets; 
+    TH1F *hist_njets; 
 	TH1F *hist_jetspt;
 	TH1F *hist_jetseta;
 	TH1F *hist_jetsphi;
@@ -159,35 +159,35 @@ patIsolatedTrackToken(consumes<std::vector<pat::IsolatedTrack> >(iConfig.getUntr
 	hist_njets->GetXaxis()->SetTitle("Number of Jets");
 	hist_njets->GetYaxis()->SetTitle("Number of events");
 	hist_njets->SetFillStyle( 3001);
-    	hist_njets->SetFillColor( kRed);
+    hist_njets->SetFillColor( kRed);
 	//---------------------------------------------------------------------
 	hist_jetspt = fs->make<TH1F>("Jetspt", "Jets", 200, 0.0, 200.0);	
 	hist_jetspt->SetTitle("Transverse momentum of jets");
 	hist_jetspt->GetXaxis()->SetTitle("Transverse Momentum");
 	hist_jetspt->GetYaxis()->SetTitle("Number of Jets");
 	hist_jetspt->SetFillStyle( 3011);
-    	hist_jetspt->SetFillColor( kGreen);
+    hist_jetspt->SetFillColor( kGreen);
 	//---------------------------------------------------------------------
 	hist_jetseta = fs->make<TH1F>("Jetseta", "Jetseta",20,-10,10);
 	hist_jetseta->SetTitle("Eta of jets");
 	hist_jetseta->GetXaxis()->SetTitle("eta");
 	hist_jetseta->GetYaxis()->SetTitle("Number of Jets");
 	hist_jetseta->SetFillStyle( 3021);
-    	hist_jetseta->SetFillColor( kBlue);
+    hist_jetseta->SetFillColor( kBlue);
 	//---------------------------------------------------------------------
 	hist_jetsphi = fs->make<TH1F>("Jetsphi", "Jetsphi",10,-5,5);
 	hist_jetsphi->SetTitle("Phi of jets");
 	hist_jetsphi->GetXaxis()->SetTitle("Phi");
 	hist_jetsphi->GetYaxis()->SetTitle("Number of Jets");
 	hist_jetsphi->SetFillStyle( 3012);
-    	hist_jetsphi->SetFillColor( kPink);
+    hist_jetsphi->SetFillColor( kPink);
 	//---------------------------------------------------------------------
 	hist_jetsmass = fs->make<TH1F>("Jetsmass", "Jetsmass",15,0,15);
 	hist_jetsmass->SetTitle("Mass of jets");
 	hist_jetsmass->GetXaxis()->SetTitle("Mass");
 	hist_jetsmass->GetYaxis()->SetTitle("Number of Jets");
 	hist_jetsmass->SetFillStyle( 3022);
-    	hist_jetsmass->SetFillColor( kOrange);
+    hist_jetsmass->SetFillColor( kOrange);
 	//---------------------------------------------------------------------
 
 	
@@ -199,7 +199,7 @@ patIsolatedTrackToken(consumes<std::vector<pat::IsolatedTrack> >(iConfig.getUntr
 	hist_n_inc_jets->GetXaxis()->SetTitle("Number of Inclusive Jets");
 	hist_n_inc_jets->GetYaxis()->SetTitle("Number of events");
 	hist_n_inc_jets->SetFillStyle( 3001);
-    	hist_n_inc_jets->SetFillColor( kRed);
+    hist_n_inc_jets->SetFillColor( kRed);
 		
 		
 		
@@ -267,6 +267,9 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 		
 			input_particles.push_back(fastjet::PseudoJet(itTrack->px(),itTrack->py(),itTrack->pz(),itTrack->energy()));
    		}
+	 
+		printf("%5u %15.8f %15.8f %15.8f\n",i, input_particles.rap(), input_particles.pt(), input_particles.mt2());
+	 
 	
 		std::cout <<  " Number of particles before applying cuts (ie, before using selector) : " <<input_particles.size() << std::endl;
 	
@@ -325,7 +328,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 		{
 			std::vector<fastjet::PseudoJet> exclusive_jets = clust_seq.exclusive_jets(1);
 			std::cout<<"\n";
-			std::cout<< "Number  of Exclusive jets = "<<exclusive_jets.size()<<std::endl;
+			std::cout<< "Number of Exclusive jets = "<<exclusive_jets.size()<<std::endl;
 			int ExcJetSize = exclusive_jets.size();
 			hist_n_exc_jets->Fill(ExcJetSize);
 		}
