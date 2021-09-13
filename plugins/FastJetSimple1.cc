@@ -200,10 +200,10 @@ patIsolatedTrackToken(consumes<std::vector<pat::IsolatedTrack> >(iConfig.getUntr
 	
 	
 	
-	hist_jetrap -> = fs->make<TH1F>("jetrap", "Jet Rapidity", 10, 0, 10);
-	hist_jetphi -> = fs->make<TH1F>("jetphi", "Jet phi", 10, 0, 10);
-	hist_jetpt -> F= fs->make<TH1F>("jetpt", "Jet pt", 10, 0, 10);
-	hist_invmass -> = fs->make<TH1F>("invmass", "Jet Invarient mass", 10, 0, 10);
+	hist_jetrap =fs->make<TH1F>("jetrap", "Jet Rapidity", 10, 0, 10);
+	hist_jetphi =fs->make<TH1F>("jetphi", "Jet phi", 10, 0, 10);
+	hist_jetpt = fs->make<TH1F>("jetpt", "Jet pt", 10, 0, 10);
+	hist_invmass  = fs->make<TH1F>("invmass", "Jet Invarient mass", 10, 0, 10);
 	
 	
 	hist_n_inc_jets = fs->make<TH1F>("NInc_Jets", "Number of Inclusive Jets", 10, 0, 10);
@@ -322,7 +322,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 		int pdg_id = 13;   	//  - pdg_id        the PDG id of the particle
    		int vertex_no = 1;	//  - vertex_number the id of the vertex it originates from
 		
-		printf("%5s %15s %15s %15s\n","jet #", "rapidity", "phi", "pt" , "invMass");   // label the columns
+		printf("%5s %15s %15s %15s %15s\n","jet #", "rapidity", "phi", "pt" , "invMass");   // label the columns
 		
 		for (unsigned int i = 0; i < inclusive_jets.size(); i++)
 		{
@@ -342,7 +342,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			
 			hist_jetrap -> Fill(jetrap);
 			hist_jetphi -> Fill(jetphi);
-			hist_jetpt -> Fill(jetpt):
+			hist_jetpt -> Fill(jetpt);
 			hist_invmass -> Fill(invmass);
 			
 			
