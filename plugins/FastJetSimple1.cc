@@ -321,7 +321,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 		}
 
 		//Exclusive Jets
-		if (incJetSize >2
+		if (incJetSize >2)
 		{
 			std::vector<fastjet::PseudoJet> exclusive_jets = clust_seq.exclusive_jets(1);
 			std::cout<<"\n";
