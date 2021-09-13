@@ -396,9 +396,9 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 */
 	//std::cout<<n<<std::endl; 
 	//std::cout<<metsumEtMax<<std::endl;
-	
+	std::cout<<"================================"<<std::endl; 
+
 }
-std::cout<<"================================"<<std::endl; 
 
 // ------------ method called once each job just before starting event loop  ------------
 void
