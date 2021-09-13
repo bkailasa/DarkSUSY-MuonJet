@@ -273,7 +273,8 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	
 		//defining basic set of jet cuts using fastjet::Selector
 	
-		fastjet::Selector particle_selector = fastjet::SelectorAbsRapRange(1.0,2.5) || (fastjet::SelectorAbsRapMax(1.0) && fastjet::SelectorPtMin(1.0));
+		//fastjet::Selector particle_selector = fastjet::SelectorAbsRapRange(1.0,2.5) || (fastjet::SelectorAbsRapMax(1.0) && fastjet::SelectorPtMin(1.0));
+		fastjet::Selector particle_selector = fastjet::SelectorAbsRapRange(1.0,2.5);
 		
 			
 		
@@ -299,7 +300,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 		
 		//Inclusive Jets 
 		std::vector<fastjet::PseudoJet> inclusive_jets = clust_seq.inclusive_jets();
-		std::cout<< "Number  of jets = "<<inclusive_jets.size()<<std::endl;
+		std::cout<< "Number  of Inclusive jets = "<<inclusive_jets.size()<<std::endl;
 		int incJetSize = inclusive_jets.size();
 		hist_n_inc_jets->Fill(incJetSize);	
 	
@@ -364,10 +365,10 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 
 	
 	//===========================MET==========================MET=============================MET============================
- 
+	std::cout << "\n";
 	const pat::MET &met = patMet->front();
 	float metpt = met.pt();
-	std::cout << " pt " <<  met.pt() << " px " <<  met.px() << " py " <<  met.py()  << " phi " <<  met.phi() << std::endl;
+	std::cout << " met.pt " <<  met.pt() << " met.px " <<  met.px() << " met.py " <<  met.py()  << " phi " <<  met.phi() << std::endl;
 	
 	hist_metpt -> Fill(metpt);
 	
