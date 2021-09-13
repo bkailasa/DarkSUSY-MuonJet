@@ -268,7 +268,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			input_particles.push_back(fastjet::PseudoJet(itTrack->px(),itTrack->py(),itTrack->pz(),itTrack->energy()));
    		}
 	 
-		printf("%5u %15.8f %15.8f %15.8f\n", input_particles.rap(), input_particles.pt(), input_particles.mt2());
+		//input_particles.rap(), input_particles.pt(), input_particles.mt2());
 	 
 	
 		std::cout <<  " Number of particles before applying cuts (ie, before using selector) : " <<input_particles.size() << std::endl;
@@ -320,7 +320,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 		
 			std::cout<<"This is the pgdID"<<pdgid<<std::endl;
 			
-			printf("%5u %15.8f %15.8f %15.8f\n",i, inclusive_jets[i].rap(), inclusive_jets[i].phi(), inclusive_jets[i].perp());
+			printf("%5u %15.8f %15.8f %15.8f\n",i, inclusive_jets[i].rap(), inclusive_jets[i].phi(), inclusive_jets[i].mt2());
 		}
 
 		//Exclusive Jets
