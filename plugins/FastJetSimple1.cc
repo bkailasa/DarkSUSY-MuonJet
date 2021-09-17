@@ -239,8 +239,8 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	edm::Handle<std::vector<pat::MET>> patMet;
 	iEvent.getByToken(patMetToken, patMet); 
 	
-	edm::Handle<std::vector<pat::IsolatedTrack>> patIsolatedTrack;
-	iEvent.getByToken(patIsolatedTrackToken, patIsolatedTrack); 
+	//edm::Handle<std::vector<pat::IsolatedTrack>> patIsolatedTrack;
+	//iEvent.getByToken(patIsolatedTrackToken, patIsolatedTrack); 
 	
 	std::vector<fastjet::PseudoJet> input_particles;
 	
