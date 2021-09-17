@@ -49,7 +49,7 @@
 
 //Muons
 #include "DataFormats/PatCandidates/interface/Muon.h"
-#include "DataFormats/PatCandidates/interface/PackedGenParticle.h"      //not sure  is it needed?
+#include "DataFormats/PatCandidates/interface/PackedGenParticle.h"      
 
 
 //Missing Energy
@@ -69,7 +69,7 @@
 #include "fastjet/config.h"
 #include "fastjet/SISConePlugin.hh"
 
-#include "DataFormats/PatCandidates/interface/IsolatedTrack.h"
+//#include "DataFormats/PatCandidates/interface/IsolatedTrack.h"
 #include "FastjetEx/FastJetSimple1/interface/Myheaderfile1.h"       // My header file
 #include "fastjet/PseudoJet.hh"
 #include "fastjet/ClusterSequenceArea.hh"
@@ -94,18 +94,15 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 	edm::EDGetTokenT<std::vector<pat::Muon>			> patmuonToken;
 	edm::EDGetTokenT<std::vector<pat::Jet>			> patjetToken;
 	edm::EDGetTokenT<std::vector<pat::MET>			> patMetToken;
-	edm::EDGetTokenT<std::vector<pat::IsolatedTrack>	> patIsolatedTrackToken;
+	//edm::EDGetTokenT<std::vector<pat::IsolatedTrack>	> patIsolatedTrackToken;
 	
 	
 	edm::Service<TFileService> fs;
 	
-
-// Defining Histogtams-------------------------------------------------------------------------
-	
 // For muons----------------------------------
 	
 	
-
+/*
 // For Jets------------------------------------
     TH1F *hist_njets; 
 	TH1F *hist_jetspt;
@@ -113,9 +110,9 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 	TH1F *hist_jetsphi;
 	TH1F *hist_jetsmass;
 	TH1F *hist_dausPID;
-	
-	
-	
+*/
+
+//For Fastjet---------------------------------	
 	TH1F *hist_jetrap;
 	TH1F *hist_jetphi;
 	TH1F *hist_jetpt;
@@ -125,11 +122,9 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 	
 	TH1F *hist_n_inc_jets;
 	TH1F *hist_n_exc_jets;
+	
+	
 // For Mets-----------------------------------
-	
-	
-	
-	
 /*	TH1F *hist_metsumEt;
 	TH1F *hist_metet;
 	TH1F *hist_meteta;
@@ -137,12 +132,8 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 */
 	
 	TH1F *hist_metpt;
-	//----------------------------------------
-	
-	
-	
-	
 
+//----------------------------------------
 };
 
 
@@ -151,13 +142,13 @@ FastJetSimple1::FastJetSimple1(const edm::ParameterSet& iConfig)
 patmuonToken(consumes<std::vector<pat::Muon> >(iConfig.getUntrackedParameter<edm::InputTag>		("muonTag"))),
 patjetToken(consumes<std::vector<pat::Jet> >(iConfig.getUntrackedParameter<edm::InputTag>		("jetTag"))),
 patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::InputTag>		("metTag"))),
-patIsolatedTrackToken(consumes<std::vector<pat::IsolatedTrack> >(iConfig.getUntrackedParameter<edm::InputTag>	("trackTag")))	
+//patIsolatedTrackToken(consumes<std::vector<pat::IsolatedTrack> >(iConfig.getUntrackedParameter<edm::InputTag>	("trackTag")))	
 {
     
 	// For muons
 	
 	
-	
+/*
 	// For jets----------------------------------------
 	hist_njets = fs->make<TH1F>("NJets", "Number of Jets", 12, -1.5, 10.5);
 	hist_njets->SetTitle("Number of Jets in events");
@@ -198,7 +189,9 @@ patIsolatedTrackToken(consumes<std::vector<pat::IsolatedTrack> >(iConfig.getUntr
 	
 	hist_dausPID = fs->make<TH1F>("DausPID", "Daus PdgID",500,-250,250);
 	
-	
+*/
+
+	//---------------------hists for Fastjet::pseudojet----------------------------------
 	
 	hist_jetrap =fs->make<TH1F>("jetrap", "Jet Rapidity", 10, 0, 10);
 	hist_jetphi =fs->make<TH1F>("jetphi", "Jet phi", 10, 0, 10);
@@ -219,15 +212,14 @@ patIsolatedTrackToken(consumes<std::vector<pat::IsolatedTrack> >(iConfig.getUntr
 	
 	
 	
-/*	// For Mets----------------------------------------
-
+	// ---------------------------hists for pat::MET----------------------------------------
+/*	
 	hist_metsumEt= fs->make<TH1F>("metsumEt", "metsumEt",600,0,300);
 	hist_metet= fs->make<TH1F>("metet", "metet",250,0,250);
 	hist_meteta= fs->make<TH1F>("meteta", "meteta",250,0,250);
 	hist_metphi= fs->make<TH1F>("metphi", "metphi",20,0,5);                    
 */	
 	hist_metpt=fs->make<TH1F>("metpt", "metpt",200,0,200);
-	
 	
 }
 
@@ -268,38 +260,30 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	
 */
 	
-	
-
 //===========================Fastjet==============================Fastjet==============================Fastjet======================	
 	
-	for(std::vector<pat::IsolatedTrack>::const_iterator itTrack = patIsolatedTrack->begin(); itTrack != patIsolatedTrack->end(); ++itTrack)
+//		for(std::vector<pat::IsolatedTrack>::const_iterator itTrack = patIsolatedTrack->begin(); itTrack != patIsolatedTrack->end(); ++itTrack)
+		for (std::vector<pat::Muon>::const_iterator itMuon=patMuon->begin(); itMuon!=patMuon->end(); ++itMuon) 
 		{
 			//int charge = itTrack->pt();
 			//std::cout<<charge<<std::endl;
-		
+			
 			input_particles.push_back(fastjet::PseudoJet(itTrack->px(),itTrack->py(),itTrack->pz(),itTrack->energy()));
-   		}
+		}
 	 
-		//input_particles.rap(), input_particles.pt(), input_particles.mt2());
-	 
-	
 		std::cout <<  " Number of particles before applying cuts (ie, before using selector) : " <<input_particles.size() << std::endl;
 	
 	
 		//defining basic set of jet cuts using fastjet::Selector
-	
 		//fastjet::Selector particle_selector = fastjet::SelectorAbsRapRange(1.0,2.5) || (fastjet::SelectorAbsRapMax(1.0) && fastjet::SelectorPtMin(1.0));
 		fastjet::Selector particle_selector = fastjet::SelectorAbsRapRange(1.0,2.5);
-		
-			
-		
 		input_particles = particle_selector(input_particles);   // Particles with cut and these are the particles to be used for jet clustering
 	
 		std::cout <<  " Number of particles after applying cuts : " <<input_particles.size() << std::endl;
 		
 			
+		
 		// Jet definition: specifying how to carry out the clustering
-	
 		double R = 0.7;
 		fastjet::JetDefinition jet_def(fastjet::kt_algorithm,R);
 		std::cout<<"Jet definition used here: "<<jet_def.description()<<std::endl;
@@ -309,10 +293,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 		fastjet::ClusterSequence clust_seq(input_particles, jet_def);
 
 	
-		
 		//Retriving required information from the clustered jet
-		
-		
 		//Inclusive Jets 
 		std::vector<fastjet::PseudoJet> inclusive_jets = clust_seq.inclusive_jets();
 		std::cout<< "Number  of Inclusive jets = "<<inclusive_jets.size()<<std::endl;
@@ -330,7 +311,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			inclusive_jets[i].set_user_info(infojet);
 			const int & pdgid = inclusive_jets[i].user_info<Myheaderfile1>().pdg_id();
 		
-			std::cout<<"This is the pgdID"<<pdgid<<std::endl;
+			std::cout<<"This is the pgdID: "<<pdgid<<std::endl;
 			
 			printf("%5u %15.8f %15.8f %15.8f %15.8f\n",i, inclusive_jets[i].rap(), inclusive_jets[i].phi(), inclusive_jets[i].pt(), inclusive_jets[i].m());
 			
@@ -344,12 +325,10 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			hist_jetphi -> Fill(jetphi);
 			hist_jetpt -> Fill(jetpt);
 			hist_invmass -> Fill(invmass);
-			
-			
 		}
 
 		//Exclusive Jets
-		if (incJetSize >2)
+		if (incJetSize >2)      
 		{
 			std::vector<fastjet::PseudoJet> exclusive_jets = clust_seq.exclusive_jets(1);
 			std::cout<<"\n";
@@ -358,9 +337,10 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			hist_n_exc_jets->Fill(ExcJetSize);
 		}
 			
-	
-//===========================Jet==========================Jet=============================Jet============================	
+		std::cout<<"================================"<<std::endl; 
 
+//===========================pat::Jet==========================pat::Jet=============================pat::Jet============================	
+/*
 	int jets = 0;  // this counts the number of jets
     	
 	for (std::vector<pat::Jet>::const_iterator itJets=patJet->begin(); itJets!=patJet->end(); ++itJets) 
@@ -393,10 +373,10 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     	}
 	
 	hist_njets->Fill(jets); //filling histogram with the number of jets
-	    
-
+*/    
+std::cout<<"================================"<<std::endl; 
 	
-	//===========================MET==========================MET=============================MET============================
+	//===========================pat::MET==========================pat::MET=============================pat::MET============================
 	std::cout << "\n";
 	const pat::MET &met = patMet->front();
 	float metpt = met.pt();
@@ -427,6 +407,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 		}
 	}
 */
+
 	//std::cout<<n<<std::endl; 
 	//std::cout<<metsumEtMax<<std::endl;
 	std::cout<<"================================"<<std::endl; 
