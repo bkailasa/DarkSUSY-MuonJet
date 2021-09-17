@@ -265,10 +265,10 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 //		for(std::vector<pat::IsolatedTrack>::const_iterator itTrack = patIsolatedTrack->begin(); itTrack != patIsolatedTrack->end(); ++itTrack)
 		for (std::vector<pat::Muon>::const_iterator itMuon=patMuon->begin(); itMuon!=patMuon->end(); ++itMuon) 
 		{
-			//int charge = itTrack->pt();
+			//int charge = itMuon->pt();
 			//std::cout<<charge<<std::endl;
 			
-			input_particles.push_back(fastjet::PseudoJet(itTrack->px(),itTrack->py(),itTrack->pz(),itTrack->energy()));
+			input_particles.push_back(fastjet::PseudoJet(itMuon->px(),itMuon->py(),itMuon->pz(),itMuon->energy()));
 		}
 	 
 		std::cout <<  " Number of particles before applying cuts (ie, before using selector) : " <<input_particles.size() << std::endl;
