@@ -82,7 +82,16 @@
 #include "fastjet/ClusterSequenceArea.hh"
 #include "fastjet/Selector.hh"
 
-
+TFile hfile("htree.root","RECREATE","ROOT file with histograms & trees");
+TTree tree("Tree","A ROOT tree ");
+	
+	
+	
+	
+	
+	
+	
+	
 
 class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
    public:
@@ -152,15 +161,6 @@ patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::
 //patIsolatedTrackToken(consumes<std::vector<pat::IsolatedTrack> >(iConfig.getUntrackedParameter<edm::InputTag>	("trackTag")))	
 {
     
-	TFile hfile("htree.root","RECREATE","ROOT file with histograms & trees");
-	TTree tree("Tree","A ROOT tree ");
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
