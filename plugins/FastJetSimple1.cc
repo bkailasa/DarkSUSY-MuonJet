@@ -341,11 +341,13 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			float invmass = inclusive_jets[i].m();
 			
 			
+			hist_jetrap -> Fill(jetrap);
+			
 			tree.Branch("JetRapidity",&hist_jetrap);
 			
 			
 			
-			hist_jetrap -> Fill(jetrap);
+			
 			hist_jetphi -> Fill(jetphi);
 			hist_jetpt -> Fill(jetpt);
 			hist_invmass -> Fill(invmass);
