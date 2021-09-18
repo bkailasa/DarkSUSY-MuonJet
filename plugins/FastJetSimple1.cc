@@ -61,6 +61,13 @@
 #include "DataFormats/METReco/interface/CorrMETData.h"
 
 
+#include "TFile.h"
+#include "TH1.h"
+#include "TH2.h"
+#include "TProfile.h"
+#include "TRandom.h"
+#include "TTree.h"
+
 
 //Header file for Fastjet Analysis
 //====================================
@@ -145,6 +152,18 @@ patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::
 //patIsolatedTrackToken(consumes<std::vector<pat::IsolatedTrack> >(iConfig.getUntrackedParameter<edm::InputTag>	("trackTag")))	
 {
     
+	TFile hfile("htree.root","RECREATE","ROOT file with histograms & trees");
+	TTree tree("Tree","A ROOT tree ");
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// For muons
 	
 	
@@ -321,10 +340,21 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			float jetpt = inclusive_jets[i].pt();
 			float invmass = inclusive_jets[i].m();
 			
+			
+			tree.Branch("JetRapidity",&hist_jetrap);
+			
+			
+			
 			hist_jetrap -> Fill(jetrap);
 			hist_jetphi -> Fill(jetphi);
 			hist_jetpt -> Fill(jetpt);
 			hist_invmass -> Fill(invmass);
+			
+			
+			
+			tree->Fill();
+			
+			
 		}
 
 		//Exclusive Jets
@@ -336,7 +366,14 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			int ExcJetSize = exclusive_jets.size();
 			hist_n_exc_jets->Fill(ExcJetSize);
 		}
-			
+		
+		 tree.Print();
+ 
+    hfile.Write();
+ 
+    hfile.Close();
+		
+		
 		std::cout<<"================================"<<std::endl; 
 
 //===========================pat::Jet==========================pat::Jet=============================pat::Jet============================	
