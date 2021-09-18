@@ -89,7 +89,7 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
    public:
       explicit FastJetSimple1(const edm::ParameterSet&);
       ~FastJetSimple1();
-.,,,j
+
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
 
@@ -120,6 +120,7 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 //For Fastjet---------------------------------	
 	TH1F *hist_muonpt;
 	TH1F *hist_jetrap;
+	TH1F *hist_jetphi;
 	TH1F *hist_jetpt;
 	TH1F *hist_invmass;
 	
@@ -264,7 +265,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			hist_muonpt->Fill(muonpt);
 					
 			input_particles.push_back(fastjet::PseudoJet(itMuon->px(),itMuon->py(),itMuon->pz(),itMuon->energy()));
-			std::cout<< "PDGID of the input particle"<<input_particles.pdgId()<<std::endl;
+			std::cout<< "PDGID of the input particle"<<input_particles._pdg_id()<<std::endl;
 		}
 	 
 		std::cout <<  " Number of particles before applying cuts (ie, before using selector) : " <<input_particles.size() << std::endl;
