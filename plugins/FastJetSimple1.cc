@@ -265,7 +265,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			hist_muonpt->Fill(muonpt);
 					
 			input_particles.push_back(fastjet::PseudoJet(itMuon->px(),itMuon->py(),itMuon->pz(),itMuon->energy()));
-			std::cout<< "PDGID of the input particle"<<input_particles._pdg_id()<<std::endl;
+			std::cout<< "PDGID of the input particle"<<input_particles..constituents()<<std::endl;
 		}
 	 
 		std::cout <<  " Number of particles before applying cuts (ie, before using selector) : " <<input_particles.size() << std::endl;
