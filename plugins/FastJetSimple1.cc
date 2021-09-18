@@ -85,19 +85,11 @@
 TFile hfile("htree.root","RECREATE","ROOT file with histograms & trees");
 TTree tree("Tree","A ROOT tree ");
 	
-	
-	
-	
-	
-	
-	
-	
-
 class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
    public:
       explicit FastJetSimple1(const edm::ParameterSet&);
       ~FastJetSimple1();
-
+.,,,j
       static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
 
 
@@ -115,9 +107,6 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 	
 	edm::Service<TFileService> fs;
 	
-// For muons----------------------------------
-	
-	
 /*
 // For Jets------------------------------------
     TH1F *hist_njets; 
@@ -129,8 +118,8 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 */
 
 //For Fastjet---------------------------------	
+	TH1F *hist_muonpt;
 	TH1F *hist_jetrap;
-	TH1F *hist_jetphi;
 	TH1F *hist_jetpt;
 	TH1F *hist_invmass;
 	
@@ -211,7 +200,7 @@ patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::
 */
 
 	//---------------------hists for Fastjet::pseudojet----------------------------------
-	
+	hist_muonpt = fs->make<TH1F>("muonpt", "muon pt (without cuts",10,0,10);
 	hist_jetrap =fs->make<TH1F>("jetrap", "Jet Rapidity", 10, 0, 10);
 	hist_jetphi =fs->make<TH1F>("jetphi", "Jet phi", 10, 0, 10);
 	hist_jetpt = fs->make<TH1F>("jetpt", "Jet pt", 10, 0, 10);
@@ -265,29 +254,17 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	
 	
 	
-//===========================Muons==========================Muons=============================Muons====================
-/*
-	int m=0;
-	std::cout << "Number of RECO muons: " << patMuon->size() << std::endl;
-	
-	for (std::vector<pat::Muon>::const_iterator itMuon=patMuon->begin(); itMuon!=patMuon->end(); ++itMuon) 
-	{
-		m=m+1; 
-	}
-	
-	std::cout<<m<<std::endl;
-	
-*/
-	
+
 //===========================Fastjet==============================Fastjet==============================Fastjet======================	
 	
 //		for(std::vector<pat::IsolatedTrack>::const_iterator itTrack = patIsolatedTrack->begin(); itTrack != patIsolatedTrack->end(); ++itTrack)
 		for (std::vector<pat::Muon>::const_iterator itMuon=patMuon->begin(); itMuon!=patMuon->end(); ++itMuon) 
 		{
-			//int charge = itMuon->pt();
-			//std::cout<<charge<<std::endl;
-			
+			int muonpt = itMuon->pt();
+			hist_muonpt->Fill(muonpt);
+					
 			input_particles.push_back(fastjet::PseudoJet(itMuon->px(),itMuon->py(),itMuon->pz(),itMuon->energy()));
+			std::cout<< "PDGID of the input particle"<<input_particles.pdgId()<<std::endl;
 		}
 	 
 		std::cout <<  " Number of particles before applying cuts (ie, before using selector) : " <<input_particles.size() << std::endl;
