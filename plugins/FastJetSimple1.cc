@@ -352,7 +352,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			
 			
 			
-			tree->Fill();
+			tree.Fill();
 			
 			
 		}
