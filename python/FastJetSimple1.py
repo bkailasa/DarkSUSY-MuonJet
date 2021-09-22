@@ -25,10 +25,8 @@ process.source = cms.Source("PoolSource", fileNames = cms.untracked.vstring(
 
 process.demo1 = cms.EDAnalyzer('FastJetSimple1',
                                 muonTag = cms.untracked.InputTag("slimmedMuons"),
-                                jetTag = cms.untracked.InputTag("slimmedJets"),
                                 metTag = cms.untracked.InputTag("slimmedMETsPuppi")
-                                #trackTag = cms.untracked.InputTag("isolatedTracks")
-                               )
+                                )
 
 process.TFileService = cms.Service("TFileService",fileName = cms.string('histos001.root'))
 
