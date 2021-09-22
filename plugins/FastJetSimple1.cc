@@ -85,7 +85,8 @@
 TFile hfile("htree.root","RECREATE","ROOT file with histograms & trees");
 TTree tree("Tree","A ROOT tree ");
 	
-class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
+class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  
+{
    public:
       explicit FastJetSimple1(const edm::ParameterSet&);
       ~FastJetSimple1();
@@ -100,23 +101,10 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 
       // ----------member data ---------------------------
 	edm::EDGetTokenT<std::vector<pat::Muon>			> patmuonToken;
-	edm::EDGetTokenT<std::vector<pat::Jet>			> patjetToken;
 	edm::EDGetTokenT<std::vector<pat::MET>			> patMetToken;
-	//edm::EDGetTokenT<std::vector<pat::IsolatedTrack>	> patIsolatedTrackToken;
-	
-	
+		
 	edm::Service<TFileService> fs;
 	
-/*
-// For Jets------------------------------------
-    TH1F *hist_njets; 
-	TH1F *hist_jetspt;
-	TH1F *hist_jetseta;
-	TH1F *hist_jetsphi;
-	TH1F *hist_jetsmass;
-	TH1F *hist_dausPID;
-*/
-
 //For Fastjet---------------------------------	
 	TH1F *hist_muonpt;
 	TH1F *hist_jetrap;
@@ -124,82 +112,22 @@ class FastJetSimple1 : public edm::one::EDAnalyzer<edm::one::SharedResources>  {
 	TH1F *hist_jetpt;
 	TH1F *hist_invmass;
 	
-	
-	
 	TH1F *hist_n_inc_jets;
 	TH1F *hist_n_exc_jets;
 	
 	
 // For Mets-----------------------------------
-/*	TH1F *hist_metsumEt;
-	TH1F *hist_metet;
-	TH1F *hist_meteta;
-	TH1F *hist_metphi;    
-*/
-	
 	TH1F *hist_metpt;
 
 //----------------------------------------
 };
 
 
-FastJetSimple1::FastJetSimple1(const edm::ParameterSet& iConfig)
- :
-patmuonToken(consumes<std::vector<pat::Muon> >(iConfig.getUntrackedParameter<edm::InputTag>		("muonTag"))),
-patjetToken(consumes<std::vector<pat::Jet> >(iConfig.getUntrackedParameter<edm::InputTag>		("jetTag"))),
-patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::InputTag>		("metTag")))
-//patIsolatedTrackToken(consumes<std::vector<pat::IsolatedTrack> >(iConfig.getUntrackedParameter<edm::InputTag>	("trackTag")))	
+FastJetSimple1::FastJetSimple1(const edm::ParameterSet& iConfig):
+	patmuonToken(consumes<std::vector<pat::Muon> >(iConfig.getUntrackedParameter<edm::InputTag>	("muonTag"))),
+	patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::InputTag>	("metTag")))
 {
     
-	
-	
-	
-	// For muons
-	
-	
-/*
-	// For jets----------------------------------------
-	hist_njets = fs->make<TH1F>("NJets", "Number of Jets", 12, -1.5, 10.5);
-	hist_njets->SetTitle("Number of Jets in events");
-	hist_njets->GetXaxis()->SetTitle("Number of Jets");
-	hist_njets->GetYaxis()->SetTitle("Number of events");
-	hist_njets->SetFillStyle( 3001);
-    hist_njets->SetFillColor( kRed);
-	//---------------------------------------------------------------------
-	hist_jetspt = fs->make<TH1F>("Jetspt", "Jets", 200, 0.0, 200.0);	
-	hist_jetspt->SetTitle("Transverse momentum of jets");
-	hist_jetspt->GetXaxis()->SetTitle("Transverse Momentum");
-	hist_jetspt->GetYaxis()->SetTitle("Number of Jets");
-	hist_jetspt->SetFillStyle( 3011);
-    hist_jetspt->SetFillColor( kGreen);
-	//---------------------------------------------------------------------
-	hist_jetseta = fs->make<TH1F>("Jetseta", "Jetseta",20,-10,10);
-	hist_jetseta->SetTitle("Eta of jets");
-	hist_jetseta->GetXaxis()->SetTitle("eta");
-	hist_jetseta->GetYaxis()->SetTitle("Number of Jets");
-	hist_jetseta->SetFillStyle( 3021);
-    hist_jetseta->SetFillColor( kBlue);
-	//---------------------------------------------------------------------
-	hist_jetsphi = fs->make<TH1F>("Jetsphi", "Jetsphi",10,-5,5);
-	hist_jetsphi->SetTitle("Phi of jets");
-	hist_jetsphi->GetXaxis()->SetTitle("Phi");
-	hist_jetsphi->GetYaxis()->SetTitle("Number of Jets");
-	hist_jetsphi->SetFillStyle( 3012);
-    hist_jetsphi->SetFillColor( kPink);
-	//---------------------------------------------------------------------
-	hist_jetsmass = fs->make<TH1F>("Jetsmass", "Jetsmass",15,0,15);
-	hist_jetsmass->SetTitle("Mass of jets");
-	hist_jetsmass->GetXaxis()->SetTitle("Mass");
-	hist_jetsmass->GetYaxis()->SetTitle("Number of Jets");
-	hist_jetsmass->SetFillStyle( 3022);
-    hist_jetsmass->SetFillColor( kOrange);
-	//---------------------------------------------------------------------
-
-	
-	hist_dausPID = fs->make<TH1F>("DausPID", "Daus PdgID",500,-250,250);
-	
-*/
-
 	//---------------------hists for Fastjet::pseudojet----------------------------------
 	hist_muonpt = fs->make<TH1F>("muonpt", "muon pt (without cuts",10,0,10);
 	hist_jetrap =fs->make<TH1F>("jetrap", "Jet Rapidity", 10, 0, 10);
@@ -213,7 +141,7 @@ patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::
 	hist_n_inc_jets->GetXaxis()->SetTitle("Number of Inclusive Jets");
 	hist_n_inc_jets->GetYaxis()->SetTitle("Number of events");
 	hist_n_inc_jets->SetFillStyle( 3001);
-    hist_n_inc_jets->SetFillColor( kRed);
+    	hist_n_inc_jets->SetFillColor( kRed);
 		
 		
 		
@@ -222,12 +150,6 @@ patMetToken(consumes<std::vector<pat::MET> >(iConfig.getUntrackedParameter<edm::
 	
 	
 	// ---------------------------hists for pat::MET----------------------------------------
-/*	
-	hist_metsumEt= fs->make<TH1F>("metsumEt", "metsumEt",600,0,300);
-	hist_metet= fs->make<TH1F>("metet", "metet",250,0,250);
-	hist_meteta= fs->make<TH1F>("meteta", "meteta",250,0,250);
-	hist_metphi= fs->make<TH1F>("metphi", "metphi",20,0,5);                    
-*/	
 	hist_metpt=fs->make<TH1F>("metpt", "metpt",200,0,200);
 	
 }
@@ -242,14 +164,8 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	edm::Handle<std::vector<pat::Muon>> patMuon;
 	iEvent.getByToken(patmuonToken, patMuon);
 	
-	edm::Handle<std::vector<pat::Jet>> patJet;
-	iEvent.getByToken(patjetToken, patJet);
-	
 	edm::Handle<std::vector<pat::MET>> patMet;
 	iEvent.getByToken(patMetToken, patMet); 
-	
-	//edm::Handle<std::vector<pat::IsolatedTrack>> patIsolatedTrack;
-	//iEvent.getByToken(patIsolatedTrackToken, patIsolatedTrack); 
 	
 	std::vector<fastjet::PseudoJet> input_particles;
 	
@@ -265,7 +181,6 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 			hist_muonpt->Fill(muonpt);
 					
 			input_particles.push_back(fastjet::PseudoJet(itMuon->px(),itMuon->py(),itMuon->pz(),itMuon->energy()));
-			std::cout<< "PDGID of the input particle"<<input_particles.constituents()<<std::endl;
 		}
 	 
 		std::cout <<  " Number of particles before applying cuts (ie, before using selector) : " <<input_particles.size() << std::endl;
@@ -274,9 +189,9 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 		//defining basic set of jet cuts using fastjet::Selector
 		//fastjet::Selector particle_selector = fastjet::SelectorAbsRapRange(1.0,2.5) || (fastjet::SelectorAbsRapMax(1.0) && fastjet::SelectorPtMin(1.0));
 		fastjet::Selector particle_selector = fastjet::SelectorAbsRapRange(1.0,2.5);
-		input_particles = particle_selector(input_particles);   // Particles with cut and these are the particles to be used for jet clustering
+		selected_input_particles = particle_selector(input_particles);   // Particles with cut and these are the particles to be used for jet clustering
 	
-		std::cout <<  " Number of particles after applying cuts : " <<input_particles.size() << std::endl;
+		std::cout <<  " Number of particles after applying cuts : " <<selected_input_particles.size() << std::endl;
 		
 			
 		
@@ -354,80 +269,18 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
     hfile.Close();
 		
 		
-		std::cout<<"================================"<<std::endl; 
-
-//===========================pat::Jet==========================pat::Jet=============================pat::Jet============================	
-/*
-	int jets = 0;  // this counts the number of jets
-    	
-	for (std::vector<pat::Jet>::const_iterator itJets=patJet->begin(); itJets!=patJet->end(); ++itJets) 
-	{
-		jets=jets+1; //counters for jets
-	   
-		float jetspt = itJets->pt();
-		float jetseta  = itJets->eta();
-		float jetsphi  = itJets->phi();
-		float jetsmass = itJets->mass();
-	   
-		if(abs(jetseta)<2)
-		{
-			hist_jetspt -> Fill(jetspt);
-			hist_jetseta -> Fill(jetseta);
-			hist_jetsphi -> Fill(jetsphi);
-			hist_jetsmass -> Fill(jetsmass);
-		}
-		
-		std::vector daus(itJets->daughterPtrVector());
-	   	for (unsigned int k =0; k < daus.size(); k++)
-		{
-           		const pat::PackedCandidate &cand = dynamic_cast<const pat::PackedCandidate &>(*daus[k]);
-
-			//  int pid =fabs(cand.pdgId());
-	   		int pid =(cand.pdgId());
-           		//std::cout<<"Particle IDs in the jet"<<pid<<std::endl;
-		   	hist_dausPID -> Fill(pid);
-             	} 
-    	}
+		std::cout<<"******************************************************************************************"<<std::endl; 
 	
-	hist_njets->Fill(jets); //filling histogram with the number of jets
-*/    
-std::cout<<"================================"<<std::endl; 
 	
-	//===========================pat::MET==========================pat::MET=============================pat::MET============================
+//===========================END Fastjet================================================================================================
+
+//===========================pat::MET==========================pat::MET=============================pat::MET============================
 	std::cout << "\n";
 	const pat::MET &met = patMet->front();
 	float metpt = met.pt();
 	std::cout << " met.pt " <<  met.pt() << " met.px " <<  met.px() << " met.py " <<  met.py()  << " phi " <<  met.phi() << std::endl;
-	
 	hist_metpt -> Fill(metpt);
-	
-	
-/*  	
-	float metsumEtMax = 0;   
-	int n=0;
-	for(std::vector<pat::MET>::const_iterator itMets = patMet->begin(); itMets != patMet->end(); ++itMets) 
-	{
-		n=n+1;	    
-		float metsumEt = itMets->sumEt();
-		float metet  = itMets->et();
-		float meteta  = itMets->eta();
-		float metphi = itMets->phi();
-
-		hist_metsumEt -> Fill(metsumEt);
-		hist_metet  -> Fill(metet);
-		hist_meteta  -> Fill(meteta);
-		hist_metphi -> Fill(metphi);
-		
-		if(metsumEt>metsumEtMax)
-		{
-			metsumEtMax = metsumEt;
-		}
-	}
-*/
-
-	//std::cout<<n<<std::endl; 
-	//std::cout<<metsumEtMax<<std::endl;
-	std::cout<<"================================"<<std::endl; 
+	//==========================END pat::MET============================================================================================================ 
 
 }
 
