@@ -168,6 +168,7 @@ void FastJetSimple1::analyze(const edm::Event& iEvent, const edm::EventSetup& iS
 	iEvent.getByToken(patMetToken, patMet); 
 	
 	std::vector<fastjet::PseudoJet> input_particles;
+	std::vector<fastjet::PseudoJet> selected_input_particles;
 	
 	
 	
